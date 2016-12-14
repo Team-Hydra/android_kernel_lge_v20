@@ -236,7 +236,7 @@ static int rmidev_i2c_write(struct device *dev,
 	}
 
 	/* page restore */
-	if (page_changed) {	
+	if (page_changed) {
 		ret = synaptics_write(dev, PAGE_SELECT_REG,
 					&page_old, sizeof(page_old));
 

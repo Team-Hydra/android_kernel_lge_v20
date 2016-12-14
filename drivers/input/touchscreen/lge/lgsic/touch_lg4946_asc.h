@@ -101,4 +101,3 @@ void lg4946_asc_register_sysfs(struct device *dev);
 void lg4946_asc_init(struct device *dev);
 
 #endif /* LGE_TOUCH_LG4946_ASC_H */
-

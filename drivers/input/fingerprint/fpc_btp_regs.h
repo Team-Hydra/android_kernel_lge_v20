@@ -78,5 +78,3 @@ typedef enum {
 	((reg) == FPC_BTP_REG_HWID)? 				2 : 0 )
 
 #endif // __FPC_BTP_REGS_H
-
-

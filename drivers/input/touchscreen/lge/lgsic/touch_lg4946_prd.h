@@ -108,5 +108,3 @@ int lg4946_prd_register_sysfs(struct device *dev);
 void lg4946_te_test_logging(struct device *dev, char *buf);
 
 #endif
-
-

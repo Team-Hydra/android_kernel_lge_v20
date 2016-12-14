@@ -324,4 +324,3 @@ module_exit(mts_tty_exit);
 MODULE_DESCRIPTION("LGE MTS TTY");
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("LGMSP-MTS@lge.com>");
-

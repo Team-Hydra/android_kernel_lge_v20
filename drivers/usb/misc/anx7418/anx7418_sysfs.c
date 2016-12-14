@@ -7,11 +7,11 @@ static ssize_t show_sbu_sel(struct device *dev, struct device_attribute *attr, c
 {
 	struct anx7418 *anx = dev_get_drvdata(dev);
 	int sbu_sel_gpio;
-	
+
 	sbu_sel_gpio = gpio_get_value(anx->sbu_sel_gpio);
 	dev_info(dev, "read anx->sbu_sel_gpio:%d\n", sbu_sel_gpio);
 
-	return sprintf(buf, "%d\n", sbu_sel_gpio); 
+	return sprintf(buf, "%d\n", sbu_sel_gpio);
 }
 static ssize_t store_sbu_sel(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
@@ -32,11 +32,11 @@ static ssize_t show_sbu2(struct device *dev, struct device_attribute *attr, char
 {
 	struct anx7418 *anx = dev_get_drvdata(dev);
 	int sbu2_gpio;
-	
+
 	sbu2_gpio = gpio_get_value(anx->ext_acc_en_gpio);
 	dev_info(dev, "read anx->sbu2_gpio:%d\n", sbu2_gpio);
 
-	return sprintf(buf, "%d\n", sbu2_gpio); 
+	return sprintf(buf, "%d\n", sbu2_gpio);
 }
 static ssize_t store_sbu2(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {

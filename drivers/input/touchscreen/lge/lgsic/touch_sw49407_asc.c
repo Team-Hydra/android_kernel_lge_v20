@@ -599,4 +599,3 @@ void sw49407_asc_init(struct device *dev)
 
 	return;
 }
-

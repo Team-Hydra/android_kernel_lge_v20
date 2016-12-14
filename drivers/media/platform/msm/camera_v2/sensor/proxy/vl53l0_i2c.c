@@ -216,11 +216,11 @@ VL53L0_Error VL53L0_UpdateByte(VL53L0_DEV dev, uint16_t index, uint8_t AndData, 
     status=VL53L0_I2CRead(dev, buffer,1);
     if( !status )
     {
-    	// write data is put in buffer[2]
-    	buffer[1]=(buffer[0]&AndData)|OrData;
-    	// set up index again
-    	buffer[0]=index&0x00FF;
-    	status=VL53L0_I2CWrite(dev, buffer, (uint8_t)2);
+	// write data is put in buffer[2]
+	buffer[1]=(buffer[0]&AndData)|OrData;
+	// set up index again
+	buffer[0]=index&0x00FF;
+	status=VL53L0_I2CWrite(dev, buffer, (uint8_t)2);
     }
 
     VL53L0_DoneI2CAcces(dev);
@@ -242,7 +242,7 @@ VL53L0_Error VL53L0_RdByte(VL53L0_DEV dev, uint16_t index, uint8_t *data)
 
     status=VL53L0_I2CRead(dev, buffer,1);
     if( !status ){
-    	*data=buffer[0];
+	*data=buffer[0];
     }
 
     //pr_err("VL53L0_RdByte = %d, index = %d, len = ", buffer[0],index);
@@ -266,8 +266,8 @@ VL53L0_Error VL53L0_RdWord(VL53L0_DEV dev, uint16_t index, uint16_t *data){
     status=VL53L0_I2CRead(dev, buffer,2);
     if( !status )
     {
-    	/* VL6180x register are Big endian if cpu is be direct read direct into *data is possible */
-    	*data=((uint16_t)buffer[0]<<8)|(uint16_t)buffer[1];
+	/* VL6180x register are Big endian if cpu is be direct read direct into *data is possible */
+	*data=((uint16_t)buffer[0]<<8)|(uint16_t)buffer[1];
     }
 
     VL53L0_DoneI2CAcces(dev);
@@ -287,8 +287,8 @@ VL53L0_Error  VL53L0_RdDWord(VL53L0_DEV dev, uint16_t index, uint32_t *data){
 
     status=VL53L0_I2CRead(dev, buffer,4);
     if( !status ){
-    	/* VL6180x register are Big endian if cpu is be direct read direct into data is possible */
-    	*data=((uint32_t)buffer[0]<<24)|((uint32_t)buffer[1]<<16)|((uint32_t)buffer[2]<<8)|((uint32_t)buffer[3]);
+	/* VL6180x register are Big endian if cpu is be direct read direct into data is possible */
+	*data=((uint32_t)buffer[0]<<24)|((uint32_t)buffer[1]<<16)|((uint32_t)buffer[2]<<8)|((uint32_t)buffer[3]);
     }
 
     VL53L0_DoneI2CAcces(dev);

@@ -1279,7 +1279,7 @@ QUICK_STEP3:
 
 }
 bool max17050_quick_start(int* new_ocv, int* new_soc)
-{	
+{
 	pr_max17050(PR_INFO, "%s : start\n", __func__);
 
 	control_charging(0);

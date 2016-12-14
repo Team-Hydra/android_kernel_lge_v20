@@ -86,6 +86,3 @@ VL53L0_Error VL53L0_I2CRead(VL53L0_DEV dev, uint8_t *buff, uint8_t len);
 #endif
 
 #endif  /* _VL53L0_I2C_H_ */
-
-
-

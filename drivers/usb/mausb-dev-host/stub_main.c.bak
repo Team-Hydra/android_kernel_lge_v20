@@ -56,7 +56,7 @@ static void init_busid_table(void)
 
 //	strncpy(busid_table[0].name, DEVICE_BUS_ID, BUSID_SIZE);
 //	busid_table[0].status = MAUSB_STUB_BUSID_ADDED;
-	
+
 
 	spin_lock_init(&busid_table_lock);
 }
@@ -77,7 +77,7 @@ static int get_busid_idx(const char *busid)
 				idx = i;
 				break;
 			}
-		}	
+		}
 	return idx;
 }
 
@@ -228,7 +228,7 @@ static struct stub_mausb_pal *stub_mausb_pal_pop(struct stub_device *sdev)
 	pal = (struct stub_mausb_pal *)stub_priv_pop_from_listhead(&sdev->mausb_pal_in_init);
 	if (pal)
 		goto done1;
-	
+
 	pal = (struct stub_mausb_pal *)stub_priv_pop_from_listhead(&sdev->mausb_pal_out_init);
 	if (pal)
 		goto done1;
@@ -240,15 +240,15 @@ static struct stub_mausb_pal *stub_mausb_pal_pop(struct stub_device *sdev)
 	pal = (struct stub_mausb_pal *)stub_priv_pop_from_listhead(&sdev->mausb_pal_tx);
 	if (pal)
 		goto done1;
-	
+
 	pal = (struct stub_mausb_pal *)stub_priv_pop_from_listhead(&sdev->mausb_pal_free);
 	if (pal)
 		goto done1;
-	
-done1:	
+
+done1:
 	spin_unlock_irqrestore(&sdev->mausb_pal_lock, flags);
 	return pal;
-	
+
 }
 
 
@@ -325,15 +325,15 @@ static ssize_t mausb_bind_write(struct file *fp, const char __user *buf,
   char *argv_bind[] = { "/data/mausb", "bind", "--busid=1-1", NULL };
   char *argv_upnp[] = {"/data/upnp-server", "&", NULL};
   char *argv_mausbd[] = {"/data/mausbd", "-D", NULL};
-  
+
   char *argv_unbind[] = { "/data/mausb", "unbind", "--busid=1-1", NULL };
   char *argv_kill_mausbd[] = {"/data/busybox20_0", "pkill", "/data/mausbd", NULL};
   char *argv_kill_upnp[] = {"/data/busybox20_0", "pkill","-15", "/data/upnp-server", NULL};
-  
+
   char *argv_upnp_client[] = {"/data/upnp-client", "&", NULL};
   char *argv_kill_upnp_client[] = {"/data/busybox20_0", "pkill","-15", "/data/upnp-client", NULL};
   char *argv_detach[] = {"/data/mausb","detach", "--port=0", NULL};
- 
+
   static char *envp[] = {
 		"HOME=/data",
 		"TERM=linux",
@@ -342,21 +342,21 @@ static ssize_t mausb_bind_write(struct file *fp, const char __user *buf,
 		"MKSH=/system/bin/sh",
 		"PATH=/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin", NULL };
 
-  LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "---> %s",__func__);	
-  if (!strcmp(buf,"bind"))	
+  LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "---> %s",__func__);
+  if (!strcmp(buf,"bind"))
   {
 	  printk(KERN_INFO "bind command received \n");
-  	ret  = call_usermodehelper( argv_bind[0], argv_bind, envp, UMH_WAIT_EXEC );
+	ret  = call_usermodehelper( argv_bind[0], argv_bind, envp, UMH_WAIT_EXEC );
 	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "ret: %d\n",ret);
 	ret  = call_usermodehelper( argv_upnp[0], argv_upnp, envp, UMH_WAIT_EXEC );
-	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "ret: %d\n",ret);	
+	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "ret: %d\n",ret);
 	ret  = call_usermodehelper( argv_mausbd[0], argv_mausbd, envp, UMH_WAIT_EXEC );
-	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "ret: %d\n",ret);	
-	
+	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "ret: %d\n",ret);
+
   }
   else if (!strcmp(buf,"unbind"))
   {
-  
+
 	ret  = call_usermodehelper( argv_kill_upnp[0], argv_kill_upnp, envp, UMH_WAIT_EXEC );
 	ret  = call_usermodehelper( argv_unbind[0], argv_unbind, envp, UMH_WAIT_EXEC );
 	ret  = call_usermodehelper( argv_kill_mausbd[0], argv_kill_mausbd, envp, UMH_WAIT_EXEC );
@@ -369,9 +369,9 @@ static ssize_t mausb_bind_write(struct file *fp, const char __user *buf,
   else if (!strcmp(buf,"attach"))
   {
 	printk(KERN_INFO "Attach command received \n");
-	ret  = call_usermodehelper( argv_upnp_client[0], argv_upnp_client, envp, UMH_WAIT_EXEC );	  
+	ret  = call_usermodehelper( argv_upnp_client[0], argv_upnp_client, envp, UMH_WAIT_EXEC );
   }
-  
+
   LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "<-- %s",__func__);
   return ret;
 }
@@ -440,10 +440,10 @@ static int __init mausb_device_init(void)
 	}
 
 	ret = misc_register(&mausb_bind_device);
-	
+
 	if (ret)
 			goto err_create_file;
-	
+
 	pr_info(DRIVER_DESC " v" MAUSB_VERSION "\n");
 
 	return ret;

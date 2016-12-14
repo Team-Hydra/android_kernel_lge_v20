@@ -110,4 +110,3 @@ extern void
 lge_monitor_batt_temp(struct charging_info req, struct charging_rsp *res);
 #endif
 /* __LGE_CHARGING_SCENARIO_H_ */
-

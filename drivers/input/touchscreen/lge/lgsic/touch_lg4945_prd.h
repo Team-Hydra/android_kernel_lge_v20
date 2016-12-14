@@ -91,5 +91,3 @@ extern void touch_msleep(unsigned int msecs);
 int lg4945_prd_register_sysfs(struct device *dev);
 
 #endif
-
-

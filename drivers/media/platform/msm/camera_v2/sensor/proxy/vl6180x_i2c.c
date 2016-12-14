@@ -144,12 +144,12 @@ int VL6180x_UpdateByte(VL6180xDev_t dev, uint16_t index, uint8_t AndData, uint8_
     status=VL6180x_I2CRead(dev, buffer,1);
     if( !status )
     {
-    	// write data is put in buffer[2]
-    	buffer[2]=(buffer[0]&AndData)|OrData;
-    	// set up index again
+	// write data is put in buffer[2]
+	buffer[2]=(buffer[0]&AndData)|OrData;
+	// set up index again
         buffer[0]=index>>8;
         buffer[1]=index&0xFF;
-    	status=VL6180x_I2CWrite(dev, buffer, (uint8_t)3);
+	status=VL6180x_I2CWrite(dev, buffer, (uint8_t)3);
     }
 
     VL6180x_DoneI2CAcces(dev);
@@ -173,7 +173,7 @@ int VL6180x_RdByte(VL6180xDev_t dev, uint16_t index, uint8_t *data){
    // if( !status ){
     status=VL6180x_I2CRead(dev, buffer,1);
     if( !status ){
-    	*data=buffer[0];
+	*data=buffer[0];
     }
     //}
     VL6180x_DoneI2CAcces(dev);
@@ -197,8 +197,8 @@ int VL6180x_RdWord(VL6180xDev_t dev, uint16_t index, uint16_t *data){
    // if( !status){
     status=VL6180x_I2CRead(dev, buffer,2);
     if( !status ){
-    	/* VL6180x register are Big endian if cpu is be direct read direct into *data is possible */
-    	*data=((uint16_t)buffer[0]<<8)|(uint16_t)buffer[1];
+	/* VL6180x register are Big endian if cpu is be direct read direct into *data is possible */
+	*data=((uint16_t)buffer[0]<<8)|(uint16_t)buffer[1];
     }
    // }
     VL6180x_DoneI2CAcces(dev);
@@ -221,8 +221,8 @@ int VL6180x_RdDWord(VL6180xDev_t dev, uint16_t index, uint32_t *data){
    // if( !status ){
     status=VL6180x_I2CRead(dev, buffer,4);
     if( !status ){
-    	/* VL6180x register are Big endian if cpu is be direct read direct into data is possible */
-    	*data=((uint32_t)buffer[0]<<24)|((uint32_t)buffer[1]<<16)|((uint32_t)buffer[2]<<8)|((uint32_t)buffer[3]);
+	/* VL6180x register are Big endian if cpu is be direct read direct into data is possible */
+	*data=((uint32_t)buffer[0]<<24)|((uint32_t)buffer[1]<<16)|((uint32_t)buffer[2]<<8)|((uint32_t)buffer[3]);
     }
    // }
     VL6180x_DoneI2CAcces(dev);

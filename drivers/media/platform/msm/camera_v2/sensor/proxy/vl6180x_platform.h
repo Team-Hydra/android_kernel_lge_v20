@@ -96,7 +96,7 @@
     #endif
         uint8_t I2cAddr;
         uint8_t DevID;
-				uint8_t DevPresent; 
+				uint8_t DevPresent;
     };
     typedef struct MyVL6180Dev_t *VL6180xDev_t;
 
@@ -121,6 +121,3 @@ int VL6180x_WrByte(VL6180xDev_t dev, uint16_t index, uint8_t data);*/
 
 
 #endif  /* VL6180x_PLATFORM */
-
-
-

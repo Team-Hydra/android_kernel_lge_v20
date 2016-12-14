@@ -139,8 +139,6 @@ MODULE_PARM_DESC(dcp_max_current, "max current drawn for DCP charger");
 #define CGCTL_REG		(QSCRATCH_REG_OFFSET + 0x28)
 #define PWR_EVNT_IRQ_STAT_REG    (QSCRATCH_REG_OFFSET + 0x58)
 #define PWR_EVNT_IRQ_MASK_REG    (QSCRATCH_REG_OFFSET + 0x5C)
-#define QSCRATCH_USB30_STS_REG	(QSCRATCH_REG_OFFSET + 0xF8)
-
 
 #define PWR_EVNT_POWERDOWN_IN_P3_MASK		BIT(2)
 #define PWR_EVNT_POWERDOWN_OUT_P3_MASK		BIT(3)
@@ -319,8 +317,6 @@ struct dwc3_msm {
 
 	unsigned int		irq_to_affin;
 	struct notifier_block	dwc3_cpu_notifier;
-	struct notifier_block	usbdev_nb;
-	bool			hc_died;
 
 	int  pwr_event_irq;
 	atomic_t                in_p3;
@@ -1758,61 +1754,61 @@ static int dwc3_msm_gsi_ep_op(struct usb_ep *ep,
 	switch (op) {
 	case GSI_EP_OP_PREPARE_TRBS:
 		request = (struct usb_gsi_request *)op_data;
-		dbg_print(0xFF, "PREPARE_TRB", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_PREPARE_TRBS for %s\n", ep->name);
 		ret = gsi_prepare_trbs(ep, request);
 		break;
 	case GSI_EP_OP_FREE_TRBS:
-		dbg_print(0xFF, "FREE_TRB", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_FREE_TRBS for %s\n", ep->name);
 		gsi_free_trbs(ep);
 		break;
 	case GSI_EP_OP_CONFIG:
 		request = (struct usb_gsi_request *)op_data;
-		dbg_print(0xFF, "EP_CONFIG", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_CONFIG for %s\n", ep->name);
 		gsi_configure_ep(ep, request);
 		break;
 	case GSI_EP_OP_STARTXFER:
-		dbg_print(0xFF, "EP_STARTXFER", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_STARTXFER for %s\n", ep->name);
 		ret = gsi_startxfer_for_ep(ep);
 		break;
 	case GSI_EP_OP_GET_XFER_IDX:
-		dbg_print(0xFF, "EP_GETXFERID", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_GET_XFER_IDX for %s\n", ep->name);
 		ret = gsi_get_xfer_index(ep);
 		break;
 	case GSI_EP_OP_STORE_DBL_INFO:
-		dbg_print(0xFF, "EP_STRDBL", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_STORE_DBL_INFO\n");
 		gsi_store_ringbase_dbl_info(ep, *((u32 *)op_data));
 		break;
 	case GSI_EP_OP_ENABLE_GSI:
-		dbg_print(0xFF, "ENABLE_GSI", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_ENABLE_GSI\n");
 		gsi_enable(ep);
 		break;
 	case GSI_EP_OP_GET_CH_INFO:
 		ch_info = (struct gsi_channel_info *)op_data;
-		dbg_print(0xFF, "GET_CH_INFO", 0, ep->name);
 		gsi_get_channel_info(ep, ch_info);
 		break;
 	case GSI_EP_OP_RING_IN_DB:
 		request = (struct usb_gsi_request *)op_data;
-		dbg_print(0xFF, "RING_IN_DB", 0, ep->name);
+		dev_dbg(mdwc->dev, "RING IN EP DB\n");
 		gsi_ring_in_db(ep, request);
 		break;
 	case GSI_EP_OP_UPDATEXFER:
 		request = (struct usb_gsi_request *)op_data;
-		dbg_print(0xFF, "EP_UPDATEXFER", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_UPDATEXFER\n");
 		ret = gsi_updatexfer_for_ep(ep, request);
 		break;
 	case GSI_EP_OP_ENDXFER:
 		request = (struct usb_gsi_request *)op_data;
-		dbg_print(0xFF, "EP_ENDXFER", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_ENDXFER for %s\n", ep->name);
 		gsi_endxfer_for_ep(ep);
 		break;
 	case GSI_EP_OP_SET_CLR_BLOCK_DBL:
 		block_db = *((bool *)op_data);
-		dbg_print(0xFF, "CLR_BLK_DBL", block_db, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_SET_CLR_BLOCK_DBL %d\n",
+						block_db);
 		gsi_set_clear_dbell(ep, block_db);
 		break;
 	case GSI_EP_OP_CHECK_FOR_SUSPEND:
-		dbg_print(0xFF, "CHK_SUSPEND", 0, ep->name);
+		dev_dbg(mdwc->dev, "EP_OP_CHECK_FOR_SUSPEND\n");
 		f_suspend = *((bool *)op_data);
 		ret = gsi_check_ready_to_suspend(ep, f_suspend);
 		break;
@@ -2038,33 +2034,6 @@ static void dwc3_restart_usb_work(struct work_struct *w)
 #endif
 	flush_delayed_work(&mdwc->sm_work);
 }
-
-static int msm_dwc3_usbdev_notify(struct notifier_block *self,
-			unsigned long action, void *priv)
-{
-	struct dwc3_msm *mdwc = container_of(self, struct dwc3_msm, usbdev_nb);
-	struct dwc3 *dwc = platform_get_drvdata(mdwc->dwc3);
-	struct usb_bus *bus = priv;
-
-	/* Interested only in recovery when HC dies */
-	if (action != USB_BUS_DIED)
-		return 0;
-
-	dev_dbg(mdwc->dev, "%s initiate recovery from hc_died\n", __func__);
-	/* Recovery already under process */
-	if (mdwc->hc_died)
-		return 0;
-
-	if (bus->controller != &dwc->xhci->dev) {
-		dev_dbg(mdwc->dev, "%s event for diff HCD\n", __func__);
-		return 0;
-	}
-
-	mdwc->hc_died = true;
-	schedule_delayed_work(&mdwc->sm_work, 0);
-	return 0;
-}
-
 
 /*
  * Check whether the DWC3 requires resetting the ep
@@ -2324,7 +2293,7 @@ static void dwc3_msm_notify_event(struct dwc3 *dwc, unsigned event,
 #endif
 	case DWC3_CONTROLLER_RESTART_USB_SESSION:
 		dev_dbg(mdwc->dev, "DWC3_CONTROLLER_RESTART_USB_SESSION received\n");
-		schedule_work(&mdwc->restart_usb_work);
+		dwc3_restart_usb_work(&mdwc->restart_usb_work);
 		break;
 	case DWC3_CONTROLLER_NOTIFY_DISABLE_UPDXFER:
 		dwc3_msm_dbm_disable_updxfer(dwc, value);
@@ -2406,11 +2375,13 @@ static int dwc3_msm_prepare_suspend(struct dwc3_msm *mdwc)
 {
 	unsigned long timeout;
 	u32 reg = 0;
+#ifdef CONFIG_LGE_USB_MAXIM_EVP
 	struct dwc3 *dwc = platform_get_drvdata(mdwc->dwc3);
+#endif
 
 	if ((mdwc->in_host_mode || (mdwc->vbus_active
 			&& mdwc->otg_state == OTG_STATE_B_SUSPEND))
-			&& dwc3_msm_is_superspeed(mdwc) && !mdwc->in_restart) {
+			&& dwc3_msm_is_superspeed(mdwc)) {
 #ifdef CONFIG_LGE_USB_MAXIM_EVP
 		if (!(dwc->gadget.evp_sts & EVP_STS_DCP)
 				&& (mdwc->chg_type != DWC3_DCP_CHARGER))
@@ -2441,32 +2412,16 @@ static int dwc3_msm_prepare_suspend(struct dwc3_msm *mdwc)
 #ifdef CONFIG_LGE_USB_G_ANDROID
 	if (!(reg & PWR_EVNT_LPM_IN_L2_MASK)) {
 		dev_err(mdwc->dev, "could not transition HS PHY to L2\n");
-		dbg_event(0xFF, "PWR_EVNT_LPM",
-			dwc3_msm_read_reg(mdwc->base, PWR_EVNT_IRQ_STAT_REG));
-		dbg_event(0xFF, "QUSB_STS",
-			dwc3_msm_read_reg(mdwc->base, QSCRATCH_USB30_STS_REG));
-		/* Mark fatal error for host mode or USB bus suspend case */
-		if (mdwc->in_host_mode || (mdwc->vbus_active
-			&& mdwc->otg_state == OTG_STATE_B_SUSPEND)) {
-			queue_delayed_work(mdwc->dwc3_wq,
-					&mdwc->resume_work, 0);
+		if (mdwc->in_host_mode) {
+			queue_delayed_work(mdwc->dwc3_wq, &mdwc->resume_work, 0);
 			return -EBUSY;
 		}
 	}
 #else
 	if (!(reg & PWR_EVNT_LPM_IN_L2_MASK)) {
 		dev_err(mdwc->dev, "could not transition HS PHY to L2\n");
-		dbg_event(0xFF, "PWR_EVNT_LPM",
-			dwc3_msm_read_reg(mdwc->base, PWR_EVNT_IRQ_STAT_REG));
-		dbg_event(0xFF, "QUSB_STS",
-			dwc3_msm_read_reg(mdwc->base, QSCRATCH_USB30_STS_REG));
-		/* Mark fatal error for host mode or USB bus suspend case */
-		if (mdwc->in_host_mode || (mdwc->vbus_active
-			&& mdwc->otg_state == OTG_STATE_B_SUSPEND)) {
-			queue_delayed_work(mdwc->dwc3_wq,
-					&mdwc->resume_work, 0);
-			return -EBUSY;
-		}
+		queue_delayed_work(mdwc->dwc3_wq, &mdwc->resume_work, 0);
+		return -EBUSY;
 	}
 #endif
 	/* Clear L2 event bit */
@@ -4332,8 +4287,6 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 
 		dwc3_set_mode(dwc, DWC3_GCTL_PRTCAP_HOST);
 
-		mdwc->usbdev_nb.notifier_call = msm_dwc3_usbdev_notify;
-		usb_register_atomic_notify(&mdwc->usbdev_nb);
 		/*
 		 * FIXME If micro A cable is disconnected during system suspend,
 		 * xhci platform device will be removed before runtime pm is
@@ -4388,7 +4341,6 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 #endif
 
 #ifndef CONFIG_LGE_USB_TYPE_C
-		usb_unregister_atomic_notify(&mdwc->usbdev_nb);
 		if (!IS_ERR(mdwc->vbus_reg))
 			ret = regulator_disable(mdwc->vbus_reg);
 		if (ret) {
@@ -5058,12 +5010,11 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 		break;
 
 	case OTG_STATE_A_HOST:
-		if (test_bit(ID, &mdwc->inputs) || mdwc->hc_died) {
-			dev_dbg(mdwc->dev, "id || hc_died\n");
+		if (test_bit(ID, &mdwc->inputs)) {
+			dev_dbg(mdwc->dev, "id\n");
 			dwc3_otg_start_host(mdwc, 0);
 			mdwc->otg_state = OTG_STATE_B_IDLE;
 			mdwc->vbus_retry_count = 0;
-			mdwc->hc_died = false;
 			work = 1;
 		} else {
 			dev_dbg(mdwc->dev, "still in a_host state. Resuming root hub.\n");

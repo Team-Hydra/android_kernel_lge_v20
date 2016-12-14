@@ -431,4 +431,3 @@ int ufs_card_reset_init(struct ufs_hba *hba)
 
 	return err;
 }
-

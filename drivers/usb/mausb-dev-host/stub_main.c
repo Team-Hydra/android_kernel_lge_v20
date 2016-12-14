@@ -400,7 +400,7 @@ int mausb_bind_unbind(const char *buf)
 	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MAIN, "---> %s",__func__);
 	  if (!strcmp(buf,"bind")) {
 		task_bind =  kthread_get_run(task_bind_loop, NULL,  "task_bind");
-	 	return 0;
+		return 0;
 	  }
 	  return 0;
 }

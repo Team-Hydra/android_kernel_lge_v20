@@ -61,4 +61,3 @@ extern int Write8BitRegisters(unsigned short regAddr,
 extern int synaptics_get_limit(struct device *dev, char *breakpoint,
 					unsigned char Tx, unsigned char Rx,
 					int limit_data[32][32]);
-

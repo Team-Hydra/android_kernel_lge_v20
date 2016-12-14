@@ -849,7 +849,7 @@ int32_t lgit_imx298_rohm_ois_move_lens(struct msm_ois_ctrl_t *o_ctrl,
 		rc = -EFAULT;
 		return rc;
 	}
-	
+
 	switch (cal_ver) {
 		/* MTM Actuator */
 		case 0x01:

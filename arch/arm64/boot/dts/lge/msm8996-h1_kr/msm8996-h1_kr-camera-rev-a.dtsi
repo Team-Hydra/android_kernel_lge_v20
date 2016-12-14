@@ -368,7 +368,7 @@
 		qcom,gpio-req-tbl-label = "CAMIF_MCLK0",
 		                          "CAM_RESET0",
 		                          "OIS_RESET",
-					  				"LDAF_EN";
+									"LDAF_EN";
 
 		qcom,sensor-position = <0>;
 		qcom,sensor-mode = <0>;

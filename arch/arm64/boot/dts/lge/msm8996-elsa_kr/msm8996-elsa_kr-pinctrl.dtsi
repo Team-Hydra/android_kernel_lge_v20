@@ -149,11 +149,11 @@
 					function = "gpio";
 				};
 
-	    			config {
-	    				pins = "gpio24", "gpio92";
-	    				drive-strength = <2>;
-	    				bias-disable = <0>;
-	    			};
+				config {
+					pins = "gpio24", "gpio92";
+					drive-strength = <2>;
+					bias-disable = <0>;
+				};
 	                };
 		};
 //[H1_BT_BRINGUP_E]
@@ -1574,7 +1574,7 @@
 			};
 		};
 
-    	sec_mi2s {
+	sec_mi2s {
 			sec_mi2s_sleep: sec_mi2s_sleep {
 				mux {
 					pins = "gpio80", "gpio81";
@@ -1598,7 +1598,7 @@
 				};
 			};
 		};
-        
+
 		sec_mi2s_sd0 {
 			sec_mi2s_sd0_sleep: sec_mi2s_sd0_sleep {
 				mux {

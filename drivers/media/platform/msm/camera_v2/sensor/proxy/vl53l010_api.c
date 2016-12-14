@@ -1375,10 +1375,10 @@ VL53L0_Error VL53L010_SetLimitCheckEnable(VL53L0_DEV Dev, uint16_t LimitCheckId,
     } else {
         if (LimitCheckEnable == 0) {
             VL53L010_SETARRAYPARAMETERFIELD(Dev, LimitChecksEnable,
-            		LimitCheckId, 0);
+			LimitCheckId, 0);
         } else {
             VL53L010_SETARRAYPARAMETERFIELD(Dev, LimitChecksEnable,
-            		LimitCheckId, 1);
+			LimitCheckId, 1);
         }
     }
 
@@ -2256,30 +2256,30 @@ VL53L0_Error VL53L010_SetGpioConfig(VL53L0_DEV Dev, uint8_t Pin,
             data = 1;
         }
         Status = VL53L0_WrByte(Dev,
-        		VL53L010_REG_GPIO_HV_MUX_ACTIVE_HIGH, data);
+			VL53L010_REG_GPIO_HV_MUX_ACTIVE_HIGH, data);
 
     } else if (DeviceMode == VL53L0_DEVICEMODE_GPIO_OSC) {
 
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x01);
-    	Status |= VL53L0_WrByte(Dev, 0x00, 0x00);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x01);
+	Status |= VL53L0_WrByte(Dev, 0x00, 0x00);
 
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x00);
-    	Status |= VL53L0_WrByte(Dev, 0x80, 0x01);
-    	Status |= VL53L0_WrByte(Dev, 0x85, 0x02);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x00);
+	Status |= VL53L0_WrByte(Dev, 0x80, 0x01);
+	Status |= VL53L0_WrByte(Dev, 0x85, 0x02);
 
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x04);
-    	Status |= VL53L0_WrByte(Dev, 0xcd, 0x00);
-    	Status |= VL53L0_WrByte(Dev, 0xcc, 0x11);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x04);
+	Status |= VL53L0_WrByte(Dev, 0xcd, 0x00);
+	Status |= VL53L0_WrByte(Dev, 0xcc, 0x11);
 
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x07);
-    	Status |= VL53L0_WrByte(Dev, 0xbe, 0x00);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x07);
+	Status |= VL53L0_WrByte(Dev, 0xbe, 0x00);
 
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x06);
-    	Status |= VL53L0_WrByte(Dev, 0xcc, 0x09);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x06);
+	Status |= VL53L0_WrByte(Dev, 0xcc, 0x09);
 
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x00);
-    	Status |= VL53L0_WrByte(Dev, 0xff, 0x01);
-    	Status |= VL53L0_WrByte(Dev, 0x00, 0x00);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x00);
+	Status |= VL53L0_WrByte(Dev, 0xff, 0x01);
+	Status |= VL53L0_WrByte(Dev, 0x00, 0x00);
 
     } else {
 
@@ -3379,7 +3379,7 @@ VL53L010_EXTERNAL VL53L0_Error VL53L010_check_part_used(VL53L0_DEV Dev,
 				VL53L0_COPYSTRING(pVL53L0_DeviceInfo->ProductId, "");
         } else {
             *Revision = VL53L010_GETDEVICESPECIFICPARAMETER(Dev, Revision);
-        	ProductId_tmp = VL53L010_GETDEVICESPECIFICPARAMETER(Dev, ProductId);		
+		ProductId_tmp = VL53L010_GETDEVICESPECIFICPARAMETER(Dev, ProductId);
 			sizeof_temp = strlen(ProductId_tmp);
 			if( VL53L0_MAX_STRING_LENGTH >= sizeof_temp)
 				VL53L0_COPYSTRING(pVL53L0_DeviceInfo->ProductId, ProductId_tmp);
@@ -3407,7 +3407,7 @@ VL53L010_EXTERNAL VL53L0_Error VL53L010_get_info_from_device(VL53L0_DEV Dev)
     LOG_FUNCTION_START("");
 
     ReadDataFromDeviceDone = VL53L010_GETDEVICESPECIFICPARAMETER(Dev,
-    		ReadDataFromDeviceDone);
+		ReadDataFromDeviceDone);
 
     /* This access is done only once after that a GetDeviceInfo or
      * datainit is done*/
@@ -3458,7 +3458,7 @@ VL53L010_EXTERNAL VL53L0_Error VL53L010_get_info_from_device(VL53L0_DEV Dev)
         Status |= VL53L0_RdDWord(Dev, 0x90, &TmpDWord);
 
         ProductId[4] = (char)(byte +
-        		((TmpDWord >> 29) & 0x07f));
+			((TmpDWord >> 29) & 0x07f));
         ProductId[5] = (char)((TmpDWord >> 22) & 0x07f);
         ProductId[6] = (char)((TmpDWord >> 15) & 0x07f);
         ProductId[7] = (char)((TmpDWord >> 8) & 0x07f);
@@ -3473,7 +3473,7 @@ VL53L010_EXTERNAL VL53L0_Error VL53L010_get_info_from_device(VL53L0_DEV Dev)
         Status |= VL53L0_RdDWord(Dev, 0x90, &TmpDWord);
 
         ProductId[9] = (char)(byte +
-        		((TmpDWord >> 26) & 0x07f));
+			((TmpDWord >> 26) & 0x07f));
         ProductId[10] = (char)((TmpDWord >> 19) & 0x07f);
         ProductId[11] = (char)((TmpDWord >> 12) & 0x07f);
         ProductId[12] = (char)((TmpDWord >> 5) & 0x07f);
@@ -3487,7 +3487,7 @@ VL53L010_EXTERNAL VL53L0_Error VL53L010_get_info_from_device(VL53L0_DEV Dev)
         Status |= VL53L0_RdDWord(Dev, 0x90, &TmpDWord);
 
         ProductId[13] = (char)(byte +
-        		((TmpDWord >> 30) & 0x07f));
+			((TmpDWord >> 30) & 0x07f));
         ProductId[14] = (char)((TmpDWord >> 23) & 0x07f);
         ProductId[15] = (char)((TmpDWord >> 16) & 0x07f);
         ProductId[16] = (char)((TmpDWord >> 9) & 0x07f);
@@ -3505,24 +3505,24 @@ VL53L010_EXTERNAL VL53L0_Error VL53L010_get_info_from_device(VL53L0_DEV Dev)
         Status |= VL53L0_WrByte(Dev, 0x80, 0x00);
 
         if (Status == VL53L0_ERROR_NONE) {
-        	VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
-        			ModuleId, ModuleId);
+		VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
+				ModuleId, ModuleId);
 
-        	VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
-        			Revision, Revision);
+		VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
+				Revision, Revision);
 
-        	VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
-        			ReferenceSpadCount, ReferenceSpadCount);
+		VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
+				ReferenceSpadCount, ReferenceSpadCount);
 
-        	VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
-        			ReferenceSpadType, ReferenceSpadType);
+		VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
+				ReferenceSpadType, ReferenceSpadType);
 
-        	ProductId_tmp = VL53L010_GETDEVICESPECIFICPARAMETER(Dev,
-        			ProductId);
-        	VL53L0_COPYSTRING(ProductId_tmp, ProductId);
+		ProductId_tmp = VL53L010_GETDEVICESPECIFICPARAMETER(Dev,
+				ProductId);
+		VL53L0_COPYSTRING(ProductId_tmp, ProductId);
 
-        	VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
-        	    		ReadDataFromDeviceDone, 1);
+		VL53L010_SETDEVICESPECIFICPARAMETER(Dev,
+				ReadDataFromDeviceDone, 1);
         }
     }
 
@@ -4070,7 +4070,7 @@ VL53L0_Error VL53L010_get_pal_range_status(VL53L0_DEV Dev,
 
 		if (Status == VL53L0_ERROR_NONE) {
             Status = VL53L010_GetLimitCheckValue(Dev,
-            		VL53L010_CHECKENABLE_SIGMA_FINAL_RANGE,
+			VL53L010_CHECKENABLE_SIGMA_FINAL_RANGE,
                      &SigmaLimitValue);
 
 			if ((SigmaLimitValue > 0) &&

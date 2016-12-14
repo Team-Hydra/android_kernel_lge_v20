@@ -319,12 +319,12 @@ static int lge_power_lge_vzw_get_property(struct lge_power *lpc,
 		val->intval = vzw_req->charging_enable;
 		break;
 
-	case LGE_POWER_PROP_VOLTAGE_NOW: 
+	case LGE_POWER_PROP_VOLTAGE_NOW:
 		vzw_req->usbin_voltage = lge_vzw_get_input_voltage(vzw_req);
 		val->intval = vzw_req->usbin_voltage;
-		pr_err("usbin voltage %d\n", vzw_req->usbin_voltage); 
+		pr_err("usbin voltage %d\n", vzw_req->usbin_voltage);
 		break;
-		
+
 	case LGE_POWER_PROP_INPUT_CURRENT_MAX :
 		val->intval = vzw_req->input_current_trim;
 		break;

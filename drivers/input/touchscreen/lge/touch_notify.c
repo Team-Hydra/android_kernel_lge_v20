@@ -76,4 +76,3 @@ int touch_notifier_call_chain(unsigned long val, void *v)
 	return blocking_notifier_call_chain(&touch_blocking_notifier, val, v);
 }
 EXPORT_SYMBOL_GPL(touch_notifier_call_chain);
-

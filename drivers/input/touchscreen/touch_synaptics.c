@@ -7699,4 +7699,3 @@ module_exit(touch_exit);
 MODULE_AUTHOR("yehan.ahn@lge.com, hyesung.shin@lge.com");
 MODULE_DESCRIPTION("LGE Touch Driver");
 MODULE_LICENSE("GPL");
-

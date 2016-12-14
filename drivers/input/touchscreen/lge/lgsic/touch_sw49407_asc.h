@@ -101,4 +101,3 @@ void sw49407_asc_register_sysfs(struct device *dev);
 void sw49407_asc_init(struct device *dev);
 
 #endif /* LGE_TOUCH_SW49407_ASC_H */
-

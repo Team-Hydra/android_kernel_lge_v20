@@ -531,7 +531,7 @@ static int lge_dm_tty_read_thread(void *data)
 
                 lge_dm_tty->ops->write_done(entry->buf, entry->len,
                             entry->ctx, lge_dm_tty->ctx);
-				
+
                 diag_ws_on_copy(DIAG_WS_MUX);
                 spin_lock_irqsave(&lge_dm_tty->lock, flags);
                 entry->buf = NULL;

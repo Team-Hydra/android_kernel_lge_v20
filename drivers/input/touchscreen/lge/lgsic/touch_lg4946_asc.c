@@ -599,4 +599,3 @@ void lg4946_asc_init(struct device *dev)
 
 	return;
 }
-

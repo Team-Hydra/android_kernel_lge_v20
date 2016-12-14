@@ -211,4 +211,3 @@ extern void lg4945_sic_abt_onchip_debug(struct device *dev, u8 *all_data);
 extern void lg4945_sic_abt_report_mode(struct device *dev, u8 *all_data);
 extern void lg4945_sic_abt_register_sysfs(struct kobject *kobj);
 #endif
-

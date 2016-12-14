@@ -45,4 +45,3 @@
 		wlan-hostwake-gpio = <&tlmm 73 0>;
 	};
 };
-

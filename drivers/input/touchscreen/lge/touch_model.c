@@ -133,5 +133,3 @@ int touch_get_platform_data(struct touch_core_data *ts)
 	return 0;
 }
 #endif
-
-

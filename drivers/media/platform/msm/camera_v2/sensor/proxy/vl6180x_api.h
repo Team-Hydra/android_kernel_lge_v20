@@ -16,7 +16,7 @@ modification, are permitted provided that the following conditions are met:
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS ARE DISCLAIMED. 
+NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS ARE DISCLAIMED.
 IN NO EVENT SHALL STMICROELECTRONICS INTERNATIONAL N.V. BE LIABLE FOR ANY
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
@@ -63,7 +63,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @defgroup api_hl API High Level Functions
  *  @brief    API High level functions
  */
- 
+
 
 /*
  * Check and set default platform dependent configuration
@@ -123,7 +123,7 @@ int VL6180x_RangeGetDeviceReady(VL6180xDev_t dev, int * Ready);
 /** @defgroup api_init Init functions
  *  @brief    API init functions
  *  @ingroup api_hl
- *  @{  
+ *  @{
  */
 /**
  * @brief Wait for device booted after chip enable (hardware standby)
@@ -192,16 +192,16 @@ int VL6180x_SetupGPIO1(VL6180xDev_t dev, uint8_t IntFunction, int ActiveHigh);
   * @return      0 on success
   */
  int VL6180x_Prepare(VL6180xDev_t dev);
- 
+
  /** @}  */
- 
+
 
 /** @defgroup api_hl_range Ranging functions
  *  @brief    Ranging functions
  *  @ingroup api_hl
- *  @{  
+ *  @{
  */
- 
+
  /**
  * @brief Start continuous ranging mode
  *
@@ -229,7 +229,7 @@ int VL6180x_RangeStartSingleShot(VL6180xDev_t dev);
  * @return 0 on success. <0 on error. >0 for calibration warning status
  */
 int VL6180x_RangeSetMaxConvergenceTime(VL6180xDev_t dev, uint8_t  MaxConTime_msec);
- 
+
 /**
   * @brief Single shot Range measurement in polling mode.
   *
@@ -241,7 +241,7 @@ int VL6180x_RangeSetMaxConvergenceTime(VL6180xDev_t dev, uint8_t  MaxConTime_mse
   * Should not be use in continuous mode operation as it will stop it and cause stop/start misbehaviour \n
   * \n This function clears Range Interrupt status , but not error one. For that uses  @a VL6180x_ClearErrorInterrupt() \n
   * This range error is not related VL6180x_RangeData_t::errorStatus that refer measure status \n
-  * 
+  *
   * @param dev          The device
   * @param pRangeData   Will be populated with the result ranging data @a  VL6180x_RangeData_t
   * @return 0 on success , @a #RANGE_ERROR if device reports an error case in it status (not cleared) use
@@ -259,8 +259,8 @@ int VL6180x_RangePollMeasurement(VL6180xDev_t dev, VL6180x_RangeData_t *pRangeDa
  * operation is triggered by a call to @a VL6180x_RangeStartSingleShot(). Then, host CPU regularly calls @a VL6180x_RangeGetMeasurementIfReady() to
  * get a distance measure if ready. In case the distance is not ready, host may get it at the next call.\n
  *
- * @warning 
- * This function does not re-start a new measurement : this is up to the host CPU to do it.\n 
+ * @warning
+ * This function does not re-start a new measurement : this is up to the host CPU to do it.\n
  * This function clears Range Interrupt for measure ready , but not error interrupts. For that, uses  @a VL6180x_ClearErrorInterrupt() \n
  *
  * @param dev  The device
@@ -367,7 +367,7 @@ const char * VL6180x_RangeGetStatusErrString(uint8_t RangeErrCode);
 /** @defgroup api_hl_als ALS functions
  *  @brief    ALS functions
  *  @ingroup api_hl
- *  @{  
+ *  @{
  */
 
 /**
@@ -444,10 +444,10 @@ int VL6180x_AlsSetInterMeasurementPeriod(VL6180xDev_t dev,  uint16_t intermeasur
  * @param gain  Gain code see datasheet or AlsGainLookUp for real value. Value is clipped to 7.
  * @return  0 on success
  */
- 
+
 int VL6180x_AlsSetAnalogueGain(VL6180xDev_t dev, uint8_t gain);
 /**
- * @brief Set thresholds for ALS continuous mode 
+ * @brief Set thresholds for ALS continuous mode
  * @warning Threshold are raw device value not lux!
  *
  * @par Function Description
@@ -466,7 +466,7 @@ int VL6180x_AlsSetThresholds(VL6180xDev_t dev, uint8_t low, uint8_t high);
  * @return  0    On success
  */
  #define VL6180x_AlsClearInterrupt(dev) VL6180x_ClearInterrupt(dev, INTERRUPT_CLEAR_ALS)
- 
+
 /**
  * Read ALS interrupt status
  * @param dev         Device
@@ -474,16 +474,16 @@ int VL6180x_AlsSetThresholds(VL6180xDev_t dev, uint8_t low, uint8_t high);
  * @return            0 on success
  */
 int VL6180x_AlsGetInterruptStatus(VL6180xDev_t dev, uint8_t *pIntStatus);
- 
+
 /** @}  */
 #endif
 
 /** @defgroup api_ll_init Init functions
  *  @brief    Init functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
- 
+
 /**
  * @brief Low level ranging and ALS register static settings (you should call @a VL6180x_Prepare() function instead)
  *
@@ -491,13 +491,13 @@ int VL6180x_AlsGetInterruptStatus(VL6180xDev_t dev, uint8_t *pIntStatus);
  * @return 0 on success
  */
 int VL6180x_StaticInit(VL6180xDev_t dev);
- 
+
  /** @}  */
- 
+
 /** @defgroup api_ll_range Ranging functions
  *  @brief    Ranging Low Level functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
 
 /**
@@ -579,8 +579,8 @@ uint16_t VL6180x_GetUpperLimit(VL6180xDev_t dev);
  * @brief Apply low and high ranging thresholds that are considered only in continuous mode
  *
  * @par Function Description
- * This function programs low and high ranging thresholds that are considered in continuous mode : 
- * interrupt will be raised only when an object is detected at a distance inside this [low:high] range.  
+ * This function programs low and high ranging thresholds that are considered in continuous mode :
+ * interrupt will be raised only when an object is detected at a distance inside this [low:high] range.
  * The function takes care of applying current scaling factor if any.\n
  * To be safe, in continuous operation, thresholds must be changed under "group parameter hold" cover.
  * Group hold can be activated/deactivated directly in the function or externally (then set 0)
@@ -685,13 +685,13 @@ int VL6180x_DMaxGetState(VL6180xDev_t dev);
  * @return      0 on success
  */
 int VL6180x_RangeSetSystemMode(VL6180xDev_t dev, uint8_t mode);
- 
-/** @}  */ 
+
+/** @}  */
 
 /** @defgroup api_ll_range_calibration Ranging calibration functions
  *  @brief    Ranging calibration functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
 /**
  * @brief Get part to part calibration offset
@@ -732,7 +732,7 @@ int  VL6180x_SetXTalkCompensationRate(VL6180xDev_t dev, FixPoint97_t Rate);
 /** @defgroup api_ll_als ALS functions
  *  @brief    ALS functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
 
 /**
@@ -754,15 +754,15 @@ int VL6180x_AlsWaitDeviceReady(VL6180xDev_t dev, int MaxLoop );
  * @param mode  A combination of working mode (#MODE_SINGLESHOT or #MODE_CONTINUOUS) and start condition (#MODE_START_STOP) \n
  * @return      0 on success
  */
-int VL6180x_AlsSetSystemMode(VL6180xDev_t dev, uint8_t mode); 
+int VL6180x_AlsSetSystemMode(VL6180xDev_t dev, uint8_t mode);
 
-/** @}  */ 
-#endif 
+/** @}  */
+#endif
 
 /** @defgroup api_ll_misc Misc functions
  *  @brief    Misc functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
 
 /**
@@ -874,7 +874,7 @@ typedef enum  {
 /** @defgroup api_ll_intr Interrupts management functions
  *  @brief    Interrupts management functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
 
 /**
@@ -891,7 +891,7 @@ int VL6180x_GetInterruptStatus(VL6180xDev_t dev, uint8_t *status);
  *
  * @par Function Description
  * Clear given interrupt cause by writing into register #SYSTEM_INTERRUPT_CLEAR register.
- * @param dev       The device 
+ * @param dev       The device
  * @param IntClear  Which interrupt source to clear. Use any combinations of #INTERRUPT_CLEAR_RANGING , #INTERRUPT_CLEAR_ALS , #INTERRUPT_CLEAR_ERROR.
  * @return  0       On success
  */
@@ -919,7 +919,7 @@ int VL6180x_ClearInterrupt(VL6180xDev_t dev, uint8_t IntClear );
 /** @defgroup api_reg API Register access functions
  *  @brief    Registers access functions called by API core functions
  *  @ingroup api_ll
- *  @{  
+ *  @{
  */
 
 /**

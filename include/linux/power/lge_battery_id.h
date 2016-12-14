@@ -57,4 +57,3 @@ bool lge_battery_check(void);
 #define BATT_ID_DEFAULT_TYPE_NAME "Generic_2810mah_sept9th2015"
 #endif
 #endif  /* __LGE_BATTERY_ID_H__ */
-

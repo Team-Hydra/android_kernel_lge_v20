@@ -32,4 +32,3 @@ config SLIMPORT_HDCP_UEVENT
 	tristate "ANX7816 HDCP DONE switch node support"
 	help
 	  Notifying progress state of SLIMPORT HDCP authenticating to userspace.
-

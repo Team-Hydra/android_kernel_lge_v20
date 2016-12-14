@@ -321,5 +321,3 @@ void lge_monitor_batt_temp(struct charging_info req, struct charging_rsp *res)
 		res->btm_state, req.is_charger, req.current_now);
 #endif
 }
-
-

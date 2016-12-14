@@ -250,4 +250,3 @@
 		qcom,master-en = <0x0>;
 	};
 };
-

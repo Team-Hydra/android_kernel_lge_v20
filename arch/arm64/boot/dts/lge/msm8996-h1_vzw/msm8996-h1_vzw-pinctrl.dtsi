@@ -121,11 +121,11 @@
 					function = "gpio";
 				};
 
-	    			config {
-	    				pins = "gpio81", "gpio24", "gpio92";
-	    				drive-strength = <2>;
-	    				bias-disable = <0>;
-	    			};
+				config {
+					pins = "gpio81", "gpio24", "gpio92";
+					drive-strength = <2>;
+					bias-disable = <0>;
+				};
 			};
 		};
 //[H1_BT_BRINGUP_E]

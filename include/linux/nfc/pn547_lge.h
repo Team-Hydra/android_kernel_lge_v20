@@ -99,4 +99,3 @@ struct pn547_gpio {
 #endif
 
 #endif /* _PN547_LGE_H_ */
-

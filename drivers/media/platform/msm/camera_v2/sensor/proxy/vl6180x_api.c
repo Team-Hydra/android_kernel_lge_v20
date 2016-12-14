@@ -16,7 +16,7 @@ modification, are permitted provided that the following conditions are met:
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
-NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS ARE DISCLAIMED. 
+NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS ARE DISCLAIMED.
 IN NO EVENT SHALL STMICROELECTRONICS INTERNATIONAL N.V. BE LIABLE FOR ANY
 DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
@@ -357,16 +357,16 @@ int VL6180x_StaticInit(VL6180xDev_t dev){
     /* TODO doc When using configurable scaling but using 1x as start condition
      * load tunning upscale  or not ??? */
     if( _GetUpscale(dev) == 1 && !(VL6180x_UPSCALE_SUPPORT<0))
-    	init_status=VL6180x_RangeStaticInit(dev);
+	init_status=VL6180x_RangeStaticInit(dev);
     else
-    	init_status=VL6180x_UpscaleStaticInit(dev);
+	init_status=VL6180x_UpscaleStaticInit(dev);
 
     if( init_status <0 ){
-    	VL6180x_ErrLog("StaticInit fail");
-    	goto error;
+	VL6180x_ErrLog("StaticInit fail");
+	goto error;
     }
     else if(init_status > 0){
-    	VL6180x_ErrLog("StaticInit warning");
+	VL6180x_ErrLog("StaticInit warning");
     }
 
 #if REFRESH_CACHED_DATA_AFTER_INIT
@@ -389,7 +389,7 @@ int VL6180x_StaticInit(VL6180xDev_t dev){
         VL6180x_ErrLog("StaticInit fail");
     }
     if( !status && init_status){
-    	status = init_status;
+	status = init_status;
     }
 error:
     LOG_FUNCTION_END(status);
@@ -808,7 +808,7 @@ int VL6180x_RangeGetMeasurement(VL6180xDev_t dev, VL6180x_RangeData_t *pRangeDat
 	#if VL6180x_WRAP_AROUND_FILTER_SUPPORT || VL6180x_HAVE_DMAX_RANGING
             status = _GetRateResult(dev, pRangeData);
             if( status )
-            	goto error;
+		goto error;
 	#endif
     #if VL6180x_WRAP_AROUND_FILTER_SUPPORT
             /* if enabled run filter */
@@ -1193,7 +1193,7 @@ int VL6180x_UpscaleSetScaling(VL6180xDev_t dev, uint8_t scaling)
             status = VL6180x_RangeSetEceState(dev, scaling == 1); /* enable ece only at 1x scaling */
         }
         if( status == 0 && !VL6180x_EXTENDED_RANGE && scaling!=1 ){
-        	status = NOT_GUARANTEED ;
+		status = NOT_GUARANTEED ;
         }
 #endif
     }
@@ -1773,12 +1773,12 @@ static int32_t _filter_Start(VL6180xDev_t dev, uint16_t m_trueRange_mm, uint16_t
     static const uint16_t ROMABLE_DATA WrapAroundNoDelayCheckPeriod = 2;
     static const uint16_t ROMABLE_DATA StdFilteredReadsIncrement = 2;
     static const uint16_t ROMABLE_DATA StdMaxFilteredReads = 4;
-    
+
     uint32_t SignalRateDMax;
-    uint32_t WrapAroundLowReturnRateLimit; 
+    uint32_t WrapAroundLowReturnRateLimit;
     uint32_t WrapAroundLowReturnRateLimit2;
     uint32_t WrapAroundLowReturnRateFilterLimit;
-    uint32_t WrapAroundHighReturnRateFilterLimit; 
+    uint32_t WrapAroundHighReturnRateFilterLimit;
 
     uint8_t u8, u8_2;
     uint32_t XTalkCompRate_KCps;
@@ -1809,16 +1809,16 @@ static int32_t _filter_Start(VL6180xDev_t dev, uint16_t m_trueRange_mm, uint16_t
         break;
     }
     m_newTrueRange_mm = m_trueRange_mm;
-    
+
     XTalkCompRate_KCps = VL6180xDevDataGet(dev, XTalkCompRate_KCps );
 
-    
+
     //Update signal rate limits depending on crosstalk
     SignalRateDMax = (uint32_t)_GetDMaxDataRetSignalAt400mm(dev) + XTalkCompRate_KCps;
-    WrapAroundLowReturnRateLimit = WrapAroundLowReturnRateLimit_ROM  + XTalkCompRate_KCps; 
+    WrapAroundLowReturnRateLimit = WrapAroundLowReturnRateLimit_ROM  + XTalkCompRate_KCps;
     WrapAroundLowReturnRateLimit2 = ((WrapAroundLowReturnRateLimit2_ROM * SignalRateDMax) / 312) + XTalkCompRate_KCps;
     WrapAroundLowReturnRateFilterLimit = ((WrapAroundLowReturnRateFilterLimit_ROM * SignalRateDMax) / 312) + XTalkCompRate_KCps;
-    WrapAroundHighReturnRateFilterLimit = ((WrapAroundHighReturnRateFilterLimit_ROM * SignalRateDMax) / 312) + XTalkCompRate_KCps; 
+    WrapAroundHighReturnRateFilterLimit = ((WrapAroundHighReturnRateFilterLimit_ROM * SignalRateDMax) / 312) + XTalkCompRate_KCps;
 
 
     /* Checks on low range data */
@@ -2420,6 +2420,3 @@ static int _DMax_Compute(VL6180xDev_t dev, VL6180x_RangeData_t *pRange){
 #undef Fix7_2_KCPs
 
 #endif /* VL6180x_HAVE_DMAX_RANGING */
-
-
-

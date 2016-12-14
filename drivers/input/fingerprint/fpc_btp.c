@@ -193,7 +193,7 @@ static irqreturn_t fpc_btp_interrupt(int irq, void *_fpc_btp);
 static int fpc_btp_regulator_init(struct fpc_btp_data_t *fpc_btp,
 					struct fpc_btp_platform_data *pdata);
 static int fpc_btp_regulator_set(struct fpc_btp_data_t *fpc_btp, bool enable);
-static int fpc_btp_ldo_en_set(struct fpc_btp_data_t *fpc_btp, bool enable); 
+static int fpc_btp_ldo_en_set(struct fpc_btp_data_t *fpc_btp, bool enable);
 
 static int spi_change_pipe_owner(struct fpc_btp_data_t *fpc_btp, bool to_tz);
 

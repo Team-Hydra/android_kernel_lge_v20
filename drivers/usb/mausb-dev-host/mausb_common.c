@@ -281,7 +281,7 @@ void mausb_dump_urb(struct urb *urb)
 	mausb_dump_buffer(urb->transfer_buffer, urb->transfer_buffer_length);
 	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_DUMP,"   actual_length         :%d\n", urb->actual_length);
 	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_DUMP,"   setup_packet          :%p\n", urb->setup_packet);
- 
+
 	if (urb->setup_packet && usb_pipetype(urb->pipe) == PIPE_CONTROL)
 		mausb_dump_usb_ctrlrequest(
 			(struct usb_ctrlrequest *)urb->setup_packet);
@@ -306,7 +306,7 @@ int mausb_recv(struct socket *sock, void *buf, int size)
 	/* for blocks of if (mausb_dbg_flag_xmit) */
 	char *bp = buf;
 	int osize = size;
- 
+
 //	LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_RX,"--->%s",__func__);
 
 	if (!sock || !buf || !size) {

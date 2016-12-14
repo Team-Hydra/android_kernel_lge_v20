@@ -17,4 +17,3 @@ config SLIMPORT_4K_IMPROVEMENT
 	  between video contents and video stream,
 	  as 24fps and 30fps, occur 4k performance issue.
 	  this change maximize 4k video stream fps to solve this issue
-

@@ -239,6 +239,3 @@ VL53L0_Error VL53L0_PollingDelay(VL53L0_DEV dev); /* usually best implemented as
 /** @} end of VL53L0_platform_group */
 
 #endif  /* _VL53L0_PLATFORM_H_ */
-
-
-

@@ -246,23 +246,23 @@ struct es9018_regmap {
 	{ "2NDHARMONICCOMP2",	ESS9018_2ND_HCOMP2, 1 },
 	{ "3RDHARMONICCOMP1",	ESS9018_3RD_HCOMP1, 1 },
 	{ "3RDHARMONICCOMP2",	ESS9018_3RD_HCOMP2, 1 },
-	{ "CPSSDELAY",			ESS9218_CP_SS_DELAY, 1},	
+	{ "CPSSDELAY",			ESS9218_CP_SS_DELAY, 1},
 	{ "GENCONFIG", 			ESS9218_GEN_CONFIG, 1},
 	{ "28", 					ESS9218_28, 1},
 	{ "29", 					ESS9218_29, 1},
 	{ "30", 					ESS9218_30, 1},
-	{ "CPCLOCK", 			ESS9218_CP_CLOCK, 1}, 
+	{ "CPCLOCK", 			ESS9218_CP_CLOCK, 1},
 	{ "AMPCONFIG", 			ESS9218_AMP_CONFIG, 1},
 	{ "INTMASK", 				ESS9218_INT_MASK, 1},
 	{ "34", 					ESS9218_34, 1},
 	{ "35", 					ESS9218_35, 1},
-	{ "36", 					ESS9218_36, 1}, 
+	{ "36", 					ESS9218_36, 1},
 	{ "NCONUM", 				ESS9218_NCO_NUM, 1},
 	{ "39", 					ESS9218_39, 1},
 	{ "FILTERADDR",			ESS9218_FILTER_ADDR, 1 },
 	{ "FILTERCOEF",			ESS9218_FILTER_COEF, 1 },
 	{ "FILTERCONT",			ESS9218_FILTER_CONT, 1 },
-	{ "45", 					ESS9218_45, 1}, 
+	{ "45", 					ESS9218_45, 1},
 	{ "46", 					ESS9218_46, 1},
 	{ "CHIPSTATUS",			ESS9018_CHIPSTATUS, 0 },
 	{ "65", 					ESS9018_65, 0 },
@@ -271,7 +271,7 @@ struct es9018_regmap {
 	{ "DPLLRATIO68", 		ESS9018_DPLLRATIO3, 0 },
 	{ "DPLLRATIO69", 		ESS9018_DPLLRATIO4, 0 },
 	{ "INPUTSELRD", 			ESS9218_INPUT_SEL_RD, 0},
-	{ "73", 					ESS9218_73, 0}, 
+	{ "73", 					ESS9218_73, 0},
 	{ "74", 					ESS9218_74, 0},
 	{ "RAMRD", 				ESS9218_RAM_RD, 0}
 };
@@ -300,7 +300,7 @@ static ssize_t es9018_registers_store(struct device *dev,
 {
 	unsigned i, reg_count, value;
 	int error = 0;
-	char name[45]; 
+	char name[45];
 
 	if (count >= 45) {
 		pr_err("%s:input too long\n", __func__);
@@ -713,7 +713,7 @@ static int sabre_audio_active(void)
 	mdelay(1);
 //	hph_switch_gpio_L();
     //ES9218_check
-	//more change will come later	
+	//more change will come later
 	es9018_power_state = ESS_PS_HIFI;
 	return 0;
 }
@@ -1615,7 +1615,7 @@ static int __init es9018_init(void)
 
 static void __exit es9018_exit(void)
 {
-  	i2c_del_driver(&es9018_i2c_driver);
+	i2c_del_driver(&es9018_i2c_driver);
 }
 
 module_init(es9018_init);

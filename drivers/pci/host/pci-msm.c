@@ -3730,7 +3730,7 @@ static int msm_pcie_config_link_state(struct msm_pcie_dev_t *dev)
 
 	while (current_offset) {
 		if (msm_pcie_check_align(dev, current_offset)) {
-#ifndef CONFIG_BCMDHD_PCIE			
+#ifndef CONFIG_BCMDHD_PCIE
 			return;
 #else
 			return MSM_PCIE_ERROR;
@@ -3750,7 +3750,7 @@ static int msm_pcie_config_link_state(struct msm_pcie_dev_t *dev)
 		PCIE_DBG(dev,
 			"RC%d endpoint does not support PCIe capability registers\n",
 			dev->rc_idx);
-#ifndef CONFIG_BCMDHD_PCIE			
+#ifndef CONFIG_BCMDHD_PCIE
 		return;
 #else
 		return MSM_PCIE_ERROR;
@@ -3846,10 +3846,10 @@ static int msm_pcie_config_link_state(struct msm_pcie_dev_t *dev)
 		current_offset = PCIE_EXT_CAP_OFFSET;
 		while (current_offset) {
 			if (msm_pcie_check_align(dev, current_offset)) {
-#ifndef CONFIG_BCMDHD_PCIE	
+#ifndef CONFIG_BCMDHD_PCIE
 				return;
 #else
-				return MSM_PCIE_ERROR;	
+				return MSM_PCIE_ERROR;
 #endif
 			}
 			val = readl_relaxed(dev->conf + current_offset);
@@ -3867,7 +3867,7 @@ static int msm_pcie_config_link_state(struct msm_pcie_dev_t *dev)
 			PCIE_DBG(dev,
 				"RC%d endpoint does not support l1ss registers\n",
 				dev->rc_idx);
-#ifndef CONFIG_BCMDHD_PCIE			
+#ifndef CONFIG_BCMDHD_PCIE
 			return;
 #else
 			return MSM_PCIE_ERROR;

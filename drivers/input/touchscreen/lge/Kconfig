@@ -29,4 +29,3 @@ source "drivers/input/touchscreen/lge/synaptics/Kconfig"
 source "drivers/input/touchscreen/lge/lgsic/Kconfig"
 
 endif
-

@@ -46,7 +46,7 @@ static void setup_cmd_submit_pdu(struct mausb_header *pdup,  struct urb *urb)
 
 	pdup->u.non_iso_hdr.reqid_seqno =  seqnum++;
 
-	
+
 	flags = urb->transfer_flags;
 	flags &= ~URB_NO_TRANSFER_DMA_MAP;
 	pdup->u.non_iso_hdr.streamid = flags;	//Need to remove flags from stream id
@@ -122,12 +122,12 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
 				printk(KERN_INFO "TX:CONTROL + OUT Transfer to MA USB Device \n" );
 			count_iov++;
 			printk(KERN_INFO "TX: OUT Transfer to MA USB Device \n" );
-			
+
 			print_hex_dump(KERN_INFO, "OUT URB:", DUMP_PREFIX_ADDRESS, 16, 1,
                                                    iov[count_iov].iov_base,iov[count_iov].iov_len, false);
 		}
 
-		
+
 		if (usb_pipein(urb->pipe) &&  !usb_pipecontrol(urb->pipe)) {
 //			printk(KERN_INFO "IN Transfer to MA USB Device \n" );
 			//txsize += urb->transfer_buffer_length;
@@ -232,12 +232,12 @@ static int vhci_send_cmd_unlink(struct vhci_device *vdev)
 		req->header.u.mgmt_hdr.dialog= mgmt_dialog++;
 //		req->header.base.length = sizeof(struct mausb_req_resp);
 		pdu_header.u.non_iso_hdr.remsize_credit = sizeof(struct mausb_req_resp);
-		
-//		req->r.cancel_req.request_id = unlink->unlink_seqnum; //TODO Change to request ID later 
-		req->r.cancel_req.resrved2 = unlink->unlink_seqnum; //TODO Change to request ID later 
+
+//		req->r.cancel_req.request_id = unlink->unlink_seqnum; //TODO Change to request ID later
+		req->r.cancel_req.resrved2 = unlink->unlink_seqnum; //TODO Change to request ID later
 		req->r.cancel_req.ep_handle = usb_pipeendpoint(unlink->priv->urb->pipe);
-		
-		
+
+
 		iov[0].iov_base = req;
 		iov[0].iov_len  = sizeof(struct mausb_header);
 		txsize += sizeof(struct mausb_header);
@@ -249,15 +249,15 @@ static int vhci_send_cmd_unlink(struct vhci_device *vdev)
 		txsize += iov[1].iov_len;
 
 		printk(KERN_INFO "req->header.u.non_iso_hdr.remsize_credit :%d\n",req->header.u.non_iso_hdr.remsize_credit);
-		printk(KERN_INFO "req->r.cancel_req.resrved2 : %d\n",req->r.cancel_req.resrved2 );		
-		
+		printk(KERN_INFO "req->r.cancel_req.resrved2 : %d\n",req->r.cancel_req.resrved2 );
+
 //		print_hex_dump(KERN_INFO, "UNLINK HEADER:", DUMP_PREFIX_ADDRESS, 16, 1,
 //										   iov[0].iov_base, iov[0].iov_len, false);
 
 //		print_hex_dump(KERN_INFO, "REQ HEADER:", DUMP_PREFIX_ADDRESS, 16, 1,
 //								   iov[1].iov_base, iov[1].iov_len, false);
 
-#if 0	
+#if 0
 		pdu_header.base.flags_version = 0x10;
 		pdu_header.base.type_subtype =  MAUSB_PKT_TYPE_MGMT | 0x28 ;
 		pdu_header.base.ep_devhandle = (usb_pipedevice(unlink->priv->urb->pipe)<< 5) | (usb_pipeendpoint(unlink->priv->urb->pipe) << 1) | ((usb_pipein(unlink->priv->urb->pipe))>>7);
@@ -274,15 +274,15 @@ static int vhci_send_cmd_unlink(struct vhci_device *vdev)
 		if (!req)
 			return -1;
 
-		req->r.cancel_req.request_id = unlink->unlink_seqnum; //TODO Change to request ID later 
+		req->r.cancel_req.request_id = unlink->unlink_seqnum; //TODO Change to request ID later
 		req->r.cancel_req.ep_handle = usb_pipeendpoint(unlink->priv->urb->pipe);
 
 		//cancel_req->ep_handle = usb_pipeendpoint(unlink->priv->urb->pipe);
 		//cancel_req->stream_id = 0x00;  //TODO
-		
-		
-//		cancel_req->request_id = unlink->unlink_seqnum; //TODO Change to request ID later 
-		printk(KERN_INFO "req->r.cancel_req.request_id : %d\n",req->r.cancel_req.request_id );		
+
+
+//		cancel_req->request_id = unlink->unlink_seqnum; //TODO Change to request ID later
+		printk(KERN_INFO "req->r.cancel_req.request_id : %d\n",req->r.cancel_req.request_id );
 		iov[1].iov_base = req;
 		iov[1].iov_len = sizeof(struct mausb_req_resp);
 		txsize += sizeof(struct mausb_req_resp);
@@ -296,7 +296,7 @@ static int vhci_send_cmd_unlink(struct vhci_device *vdev)
 		print_hex_dump(KERN_INFO, "UNLINK REQ:", DUMP_PREFIX_ADDRESS, 16, 1,
 								   &(pdu_header.base), sizeof(struct mausb_header), false);
 
-		
+
 		printk(KERN_INFO "pdu_header.base.length :%d\n",pdu_header.base.length );
 #endif
 		ret = kernel_sendmsg(vdev->ud.tcp_socket, &msg, iov, 2, txsize);
@@ -326,7 +326,7 @@ int vhci_tx_loop(void *data)
 		if (vhci_send_cmd_submit(vdev) < 0)
 			break;
 
-		if (vhci_send_cmd_unlink(vdev) < 0) 
+		if (vhci_send_cmd_unlink(vdev) < 0)
 			break;
 
 		wait_event_interruptible(vdev->waitq_tx,

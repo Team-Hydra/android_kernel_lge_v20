@@ -1491,10 +1491,10 @@ static int sw49407_notify(struct device *dev, ulong event, void *data)
 		sw49407_lcd_mode(dev, *(u32 *)data);
 		ret = sw49407_check_mode(dev);
 		if (ret == 0){
-        		if (d->lcd_mode == LCD_MODE_U3)
-            			atomic_set(&ts->state.fb, FB_RESUME);
-           		else
-            			atomic_set(&ts->state.fb, FB_SUSPEND);
+			if (d->lcd_mode == LCD_MODE_U3)
+				atomic_set(&ts->state.fb, FB_RESUME);
+			else
+				atomic_set(&ts->state.fb, FB_SUSPEND);
 			ret = LCD_EVENT_LCD_MODE;
 		} else {
 			ret = 0;
@@ -1843,6 +1843,34 @@ static int sw49407_img_binary_verify(unsigned char *imgBuf)
 	return E_FW_CODE_AND_CFG_VALID;
 }
 
+void sw49407_default_reg_map(struct device* dev){
+	struct sw49407_data *d = to_sw49407_data(dev);
+	d->reg_info.r_info_ptr_spi_addr     = 0x043;
+	d->reg_info.r_tc_cmd_spi_addr       = 0xC00;
+	d->reg_info.r_watch_cmd_spi_addr    = 0xC10;
+	d->reg_info.r_test_cmd_spi_addr     = 0xC20;
+	d->reg_info.r_abt_cmd_spi_addr      = 0xC30;
+	d->reg_info.r_cfg_c_sram_oft        = 0x960;
+	d->reg_info.r_cfg_s_sram_oft        = 0x9E0;
+	d->reg_info.r_sys_buf_sram_oft      = 0xAE0;
+	d->reg_info.r_abt_buf_sram_oft      = 0xD67;
+	d->reg_info.r_dbg_buf_sram_oft      = 0x1187;
+	d->reg_info.r_ic_status_spi_addr    = 0x200;
+	d->reg_info.r_tc_status_spi_addr    = 0x201;
+	d->reg_info.r_abt_report_spi_addr   = 0x202;
+	d->reg_info.r_reserv_spi_addr       = 0x242;
+	d->reg_info.r_chip_info_spi_addr    = 0x25c;
+	d->reg_info.r_reg_info_spi_addr     = 0x264;
+	d->reg_info.r_pt_info_spi_addr      = 0x270;
+	d->reg_info.r_tc_sts_spi_addr       = 0x27F;
+	d->reg_info.r_abt_sts_spi_addr      = 0x2BF;
+	d->reg_info.r_tune_code_spi_addr    = 0x30F;
+	d->reg_info.r_aod_spi_addr          = 0x3E3;
+	TOUCH_I("================================================\n");
+	TOUCH_I("sw49407 default register map loaded!!\n");
+	TOUCH_I("================================================\n");
+}
+
 int sw49407_chip_info_load(struct device* dev)
 {
 	struct sw49407_data *d = to_sw49407_data(dev);
@@ -1854,21 +1882,21 @@ int sw49407_chip_info_load(struct device* dev)
 	if (sw49407_reg_read(dev, info_ptr_addr,
 			(u8 *)&info_ptr_val, sizeof(u32)) < 0) {
 		TOUCH_E("Info ptr addr read error\n");
-		return -1;
+		goto error;
 	}
 	TOUCH_I("info ptr addr read : %8.8X\n", info_ptr_val);
 
 	if (sw49407_reg_read(dev, tc_status,
 			(u32 *)&tc_status_val, sizeof(tc_status_val)) < 0) {
 		TOUCH_E("tc status addr read error\n");
-		return -1;
+		goto error;
 	}
 	TOUCH_I("tc status read : %8.8X\n", tc_status_val);
 
 	if (info_ptr_val == 0 || ((info_ptr_val >> 24) != 0)) {
 
 		TOUCH_E("info_ptr_addr invalid!\n");
-		return -1;
+		goto error;
 	}
 
 	chip_info_addr = (info_ptr_val & 0xFFF);
@@ -1894,16 +1922,21 @@ int sw49407_chip_info_load(struct device* dev)
 	if (sw49407_reg_read(dev, chip_info_addr, (u8 *)&d->chip_info,
 				sizeof(struct sw49407_chip_info)) < 0) {
 		TOUCH_E("Chip info Read Error\n");
-		return -1;
+		goto error;
 	}
 
 	if (sw49407_reg_read(dev, reg_info_addr, (u8 *)&d->reg_info,
 				sizeof(struct sw49407_reg_info)) < 0) {
 		TOUCH_E("Reg info Read Error\n");
-		return -1;
+		goto error;
 	}
 
 	return 0;
+
+error:
+	// ic default register map loading
+	sw49407_default_reg_map(dev);
+	return -1;
 }
 
 static int sw49407_fw_upgrade(struct device *dev,

@@ -3922,5 +3922,3 @@ bool i2c_master_write_reg(unchar Sink_device_sel, unchar offset, unchar value)
 MODULE_DESCRIPTION("Slimport transmitter ANX7816 driver");
 MODULE_AUTHOR("<swang@analogixsemi.com>");
 MODULE_LICENSE("GPL");
-
-

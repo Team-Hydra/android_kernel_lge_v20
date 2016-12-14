@@ -522,4 +522,3 @@ static ssize_t qpnp_pattern_scale(const char* string_scale, size_t string_size)
 
 	return string_size;
 }
-

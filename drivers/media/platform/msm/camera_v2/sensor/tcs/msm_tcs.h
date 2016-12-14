@@ -29,8 +29,8 @@ static struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
 
 #define TCS_SUCCESS 		0
 
-#define TCS_NOT_READY         	1	
-#define TCS_READY_OK         	2	
+#define TCS_NOT_READY         	1
+#define TCS_READY_OK         	2
 #define TCS_IS_WORKING         	3
 #define TCS_EXIT         	4
 

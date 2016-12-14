@@ -216,7 +216,7 @@ appid_t get_appid(void *pkgl_id, const char *app_name)
 	hash_for_each_possible(pkgl_dat->package_to_appid, hash_cur, hlist, hash) {
 		if (!strcasecmp(app_name, hash_cur->key)) {
 			ret_id = (appid_t)hash_cur->value;
-		
+
 			if (!in_atomic()) {
 				packagelist_unlock(pkgl_id);
 			}

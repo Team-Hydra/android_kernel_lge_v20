@@ -106,11 +106,11 @@ static int msm_tcs_close(struct v4l2_subdev *sd,  struct v4l2_subdev_fh *fh) {
 			if (tcs_init_flag == FALSE) {
 				pr_err("[ERROR] TCS is already closed.\n");
 			}
-	 		rc = o_ctrl->i2c_client.i2c_func_tbl->i2c_util(
-	 			&o_ctrl->i2c_client, MSM_CCI_RELEASE);
-	 		if (rc < 0) {
-	 			pr_err("cci_init failed\n");
-	 		}
+			rc = o_ctrl->i2c_client.i2c_func_tbl->i2c_util(
+				&o_ctrl->i2c_client, MSM_CCI_RELEASE);
+			if (rc < 0) {
+				pr_err("cci_init failed\n");
+			}
 			tcs_init_flag = FALSE;
 		}
 	}

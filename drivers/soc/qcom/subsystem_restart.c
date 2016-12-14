@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2015, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2011-2016, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -587,6 +587,25 @@ static void disable_all_irqs(struct subsys_device *dev)
 	}
 }
 
+int wait_for_shutdown_ack(struct subsys_desc *desc)
+{
+	int count;
+
+	if (!desc || !desc->shutdown_ack_gpio)
+		return 0;
+
+	for (count = SHUTDOWN_ACK_MAX_LOOPS; count > 0; count--) {
+		if (gpio_get_value(desc->shutdown_ack_gpio))
+			return count;
+		msleep(SHUTDOWN_ACK_DELAY_MS);
+	}
+
+	pr_err("[%s]: Timed out waiting for shutdown ack\n", desc->name);
+
+	return -ETIMEDOUT;
+}
+EXPORT_SYMBOL(wait_for_shutdown_ack);
+
 static int wait_for_err_ready(struct subsys_device *subsys)
 {
 	int ret;
@@ -755,31 +774,6 @@ static void subsys_stop(struct subsys_device *subsys)
 	disable_all_irqs(subsys);
 	notify_each_subsys_device(&subsys, 1, SUBSYS_AFTER_SHUTDOWN, NULL);
 }
-
-int wait_for_shutdown_ack(struct subsys_desc *desc)
-{
-	int count;
-	struct subsys_device *dev;
-
-	if (!desc || !desc->shutdown_ack_gpio)
-		return 0;
-
-	dev = find_subsys(desc->name);
-	if (!dev)
-		return 0;
-
-	for (count = SHUTDOWN_ACK_MAX_LOOPS; count > 0; count--) {
-		if (gpio_get_value(desc->shutdown_ack_gpio))
-			return count;
-		else if (subsys_get_crash_status(dev))
-			break;
-		msleep(SHUTDOWN_ACK_DELAY_MS);
-	}
-
-	pr_err("[%s]: Timed out waiting for shutdown ack\n", desc->name);
-	return -ETIMEDOUT;
-}
-EXPORT_SYMBOL(wait_for_shutdown_ack);
 
 void *__subsystem_get(const char *name, const char *fw_name)
 {
@@ -1123,15 +1117,15 @@ int subsys_modem_restart(void)
 	int rsl;
 	struct subsys_tracking *track;
 	struct subsys_device *dev = find_subsys("modem");
-	
+
 	if(!dev)
 		return -ENODEV;
-	
+
 	track = subsys_get_track(dev);
-	
+
 	if (dev->track.state != SUBSYS_ONLINE || track->p_state != SUBSYS_NORMAL)
 		return -ENODEV;
-	
+
 	rsl = dev->restart_level;
 	dev->restart_level = RESET_SUBSYS_COUPLED;
 	subsys_set_crash_status(dev, true);

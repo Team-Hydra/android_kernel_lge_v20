@@ -278,4 +278,3 @@ device_initcall(lcd_ctrl_init);
 
 MODULE_DESCRIPTION("LGE MISC driver");
 MODULE_LICENSE("GPL v2");
-

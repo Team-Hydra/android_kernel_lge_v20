@@ -1103,7 +1103,7 @@ void qpnp_wled_dimming(int dst_lvl, int current_lvl)
 		}
         msleep(10);
     }
-	unlock_mutex:
+unlock_mutex:
     mutex_unlock(&wled->cdev.led_access);
 }
 #endif

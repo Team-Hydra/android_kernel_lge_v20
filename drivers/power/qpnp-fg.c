@@ -621,7 +621,6 @@ struct fg_chip {
 	struct fg_wakeup_source	update_sram_wakeup_source;
 	bool			fg_restarting;
 	bool			profile_loaded;
-	bool			soc_reporting_ready;
 	bool			use_otp_profile;
 	bool			battery_missing;
 	bool			power_supply_registered;
@@ -3103,8 +3102,8 @@ static void update_temp_data(struct work_struct *work)
 			if (chip->last_temp_update_time && fg_reset_on_lockup &&
 					(chip->last_good_temp > chip->batt_temp_low_limit &&
 					chip->last_good_temp < chip->batt_temp_high_limit)) {
-			        	pr_err("Batt_temp is %d !, triggering FG reset\n",
-                                        	temp);
+					pr_err("Batt_temp is %d !, triggering FG reset\n",
+						temp);
                         fg_check_ima_error_handling(chip);
 			}
 	}
@@ -4977,7 +4976,7 @@ static int fg_power_get_property(struct power_supply *psy,
 		val->intval = !!chip->bcl_lpm_disabled;
 		break;
 	case POWER_SUPPLY_PROP_SOC_REPORTING_READY:
-		val->intval = !!chip->soc_reporting_ready;
+		val->intval = !!chip->profile_loaded;
 		break;
 	case POWER_SUPPLY_PROP_IGNORE_FALSE_NEGATIVE_ISENSE:
 		val->intval = !chip->allow_false_negative_isense;
@@ -5471,9 +5470,6 @@ static irqreturn_t fg_jeita_soft_hot_irq_handler(int irq, void *_chip)
 	bool batt_warm;
 	union power_supply_propval val = {0, };
 
-	if (!is_charger_available(chip))
-		return IRQ_HANDLED;
-
 	rc = fg_read(chip, &regval, INT_RT_STS(chip->batt_base), 1);
 	if (rc) {
 		pr_err("spmi read failed: addr=%03X, rc=%d\n",
@@ -5521,9 +5517,6 @@ static irqreturn_t fg_jeita_soft_cold_irq_handler(int irq, void *_chip)
 	u8 regval;
 	bool batt_cool;
 	union power_supply_propval val = {0, };
-
-	if (!is_charger_available(chip))
-		return IRQ_HANDLED;
 
 	rc = fg_read(chip, &regval, INT_RT_STS(chip->batt_base), 1);
 	if (rc) {
@@ -5640,7 +5633,6 @@ static irqreturn_t fg_batt_missing_irq_handler(int irq, void *_chip)
 		fg_cap_learning_stop(chip);
 		chip->battery_missing = true;
 		chip->profile_loaded = false;
-		chip->soc_reporting_ready = false;
 		chip->batt_type = default_batt_type;
 		mutex_lock(&chip->cyc_ctr.lock);
 		if (fg_debug_mask & FG_IRQS)
@@ -5948,8 +5940,8 @@ static int populate_system_data(struct fg_chip *chip)
 			chip->ocv_coeffs[4], chip->ocv_coeffs[5],
 			chip->ocv_coeffs[6], chip->ocv_coeffs[7]);
 		pr_info("coeffs3 = %lld %lld %lld %lld\n",
-				chip->ocv_coeffs[8], chip->ocv_coeffs[9],
-				chip->ocv_coeffs[10], chip->ocv_coeffs[11]);
+			chip->ocv_coeffs[8], chip->ocv_coeffs[9],
+			chip->ocv_coeffs[10], chip->ocv_coeffs[11]);
 	}
 	rc = fg_mem_read(chip, buffer, OCV_JUNCTION_REG, 2, 0, 0);
 	if (rc) {
@@ -6984,7 +6976,6 @@ done:
 
 	chip->first_profile_loaded = true;
 	chip->profile_loaded = true;
-	chip->soc_reporting_ready = true;
 	chip->battery_missing = is_battery_missing(chip);
 
 	update_chg_iterm(chip);
@@ -7024,7 +7015,6 @@ done:
 	complete_all(&chip->fg_reset_done);
 	return rc;
 no_profile:
-	chip->soc_reporting_ready = true;
 	if (chip->charging_disabled) {
 		rc = set_prop_enable_charging(chip, true);
 		if (rc)
@@ -8980,7 +8970,6 @@ static void ima_error_recovery_work(struct work_struct *work)
 	if (!chip->use_otp_profile) {
 		chip->battery_missing = true;
 		chip->profile_loaded = false;
-		chip->soc_reporting_ready = false;
 		chip->batt_type = default_batt_type;
 		fg_handle_battery_insertion(chip);
 	}

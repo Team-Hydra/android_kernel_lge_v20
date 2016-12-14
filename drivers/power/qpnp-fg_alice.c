@@ -2486,7 +2486,7 @@ static int get_prop_capacity(struct fg_chip *chip)
 
 	if (chip->use_last_soc && chip->last_soc) {
 		if (chip->last_soc == FULL_SOC_RAW)
-	        	return FULL_CAPACITY;
+			return FULL_CAPACITY;
 #ifdef CONFIG_LGE_PM_SOC_SCALING
 		return rescale_monotonic_soc(chip->last_soc,chip);
 #endif
@@ -3101,8 +3101,8 @@ static void update_temp_data(struct work_struct *work)
 			if (chip->last_temp_update_time && fg_reset_on_lockup &&
 					(chip->last_good_temp > chip->batt_temp_low_limit &&
 					chip->last_good_temp < chip->batt_temp_high_limit)) {
-			        	pr_err("Batt_temp is %d !, triggering FG reset\n",
-                                        	temp);
+					pr_err("Batt_temp is %d !, triggering FG reset\n",
+						temp);
                         fg_check_ima_error_handling(chip);
 			}
 	}
@@ -7035,7 +7035,7 @@ static void check_empty_work(struct work_struct *work)
 
         msoc = get_monotonic_soc_raw(chip);
 		if (fg_debug_mask & FG_STATUS)
-			pr_info("Vbatt_low: %d, msoc: %d\n", vbatt_low_sts, 
+			pr_info("Vbatt_low: %d, msoc: %d\n", vbatt_low_sts,
 					msoc);
 		if (vbatt_low_sts || (msoc == 0))
 		        chip->soc_empty = true;

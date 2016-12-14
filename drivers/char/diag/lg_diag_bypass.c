@@ -380,4 +380,3 @@ module_exit(lge_bypass_exit);
 MODULE_DESCRIPTION("LGE DIAG BYPASS");
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Sungchul Park <sungchul.park@lge.com>");
-

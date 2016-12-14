@@ -1128,7 +1128,7 @@ int anx7418_debugfs_init(struct anx7418 *anx)
 		goto err;
 
 	entry = debugfs_create_file("val", 0600, anx7418_dbgfs_dent,
-		       	anx, &anx7418_dbgfs_val_ops);
+			anx, &anx7418_dbgfs_val_ops);
 	if (!entry)
 		goto err;
 

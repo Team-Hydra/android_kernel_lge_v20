@@ -840,7 +840,3 @@
 #define SINK_GOOD_BATTERY   0x34
 
 #endif
-
-
-
-

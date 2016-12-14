@@ -80,4 +80,3 @@ unsigned char mausb_get_sequence_number(struct mausb_header *header);
 unsigned char mausb_get_uint8(unsigned char *buff, const int offset, const int length);
 unsigned short mausb_get_uint16(unsigned char *buff, const int offset, const int length);
 unsigned int mausb_get_uint24(unsigned char *buff, const int offset, const int length);
-

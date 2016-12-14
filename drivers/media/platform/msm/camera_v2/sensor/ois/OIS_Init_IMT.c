@@ -2433,4 +2433,3 @@ void imtech_imx234_onsemi_ois_init(struct msm_ois_ctrl_t *msm_ois_t)
 	msm_ois_t->sid_ois = 0x48 >> 1;
 	msm_ois_t->func_tbl = &imtech_ois_func_tbl;
 }
-

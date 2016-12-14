@@ -442,7 +442,7 @@ static void stub_rx_pdu(struct mausb_device *ud)
 		spin_unlock_irqrestore(&sdev->mausb_pal_lock, flags);
 		//wake_up(&sdev->pal_mgmt_waitq);
 		mausbdev_mgmt_process_packect(ud);
-	 	}
+		}
 	else if (mausb_is_data_pkt(&pdu)) {
 		LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_RX,"data packet");
 

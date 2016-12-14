@@ -66,4 +66,3 @@ int get_pseudo_batt_info(int type)
 	}
 	return false;
 }
-

@@ -65,7 +65,7 @@
 		//clocks = <&clock_rpm clk_bb_clk2_pin>,
 		//	<&clock_rpm clk_bb_clk2>;
 	};
-	
+
         cxd224x-i2c@28 {
            compatible = "sony,cxd224x";
            status = "ok";

@@ -198,7 +198,3 @@ config LGE_USB_HOST_SUPPORT_LIST_SERIAL
 	help
 	  serial devices include specials, change to yes here to support high
 	  compatiblily usb host devices
-
-
-
-

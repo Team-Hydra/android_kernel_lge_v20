@@ -140,9 +140,3 @@ static int handle_mausb_mgmt_pkt_ep_handle(char  *buff,
 return offset;
 
 }
-
-
-
-
-
-

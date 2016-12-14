@@ -224,21 +224,21 @@ static int ecryptfs_calculate_sha256_qct_hw(char *dst,
     sg_init_one(&sg, (u8 *)src, len);
 	tfm = crypto_alloc_ahash("qcom-sha256", 0, 0);
     if (IS_ERR(tfm)) {
-       	pr_err("failed to load transform %ld\n", PTR_ERR(tfm));
+	pr_err("failed to load transform %ld\n", PTR_ERR(tfm));
 	    mutex_unlock(&crypt_stat->cs_hash_tfm_mutex);
         return -1;
     }
 
 	init_completion(&result.completion);
 
-   	req = ahash_request_alloc(tfm, GFP_KERNEL);
+	req = ahash_request_alloc(tfm, GFP_KERNEL);
     if (!req) {
-   	    pr_err("ahash request allocation failure\n");
-       	rc = -1;
-       	goto out;
-   	}
+	    pr_err("ahash request allocation failure\n");
+	rc = -1;
+	goto out;
+	}
 
-   	ahash_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG, hash_complete, &result);
+	ahash_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG, hash_complete, &result);
 
     ahash_request_set_crypt(req, &sg, dst, len);
 
@@ -411,7 +411,7 @@ static int ecryptfs_crypto_api_algify_cipher_name(char **algified_name,
 #ifdef CONFIG_LGCRYPTO_FIPS_ENABLE
 		chaining_modifier ="lge-cbc";
 #else
-       	chaining_modifier ="qcom-cbc";
+	chaining_modifier ="qcom-cbc";
 #endif
 
 	cipher_name_len = strlen(cipher_name);
@@ -449,9 +449,6 @@ int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
 #ifdef CONFIG_CRYPTO_CCMODE
 	int cc_flag;
 	char dst[SHA256_HASH_SIZE];
-#ifdef CONFIG_CRYPTO_DEV_KEY_INTEGRITY_CHECK
-	char key_hash[SHA256_HASH_SIZE];
-#endif
 #else
 	char dst[MD5_DIGEST_SIZE];
 #endif // CONFIG_CRYPTO_CCMODE
@@ -478,18 +475,11 @@ int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
 #ifndef CONFIG_LGCRYPTO_FIPS_ENABLE
 	if ((cc_flag & FLAG_CC_MODE) == FLAG_CC_MODE) {
 		rc = ecryptfs_calculate_sha256_qct_hw(dst, crypt_stat, src, (crypt_stat->iv_bytes + 16));
-#ifdef CONFIG_CRYPTO_DEV_KEY_INTEGRITY_CHECK
-		rc = ecryptfs_calculate_sha256_qct_hw(key_hash, crypt_stat, crypt_stat->key, crypt_stat->key_size);
-#endif
 	}
 	else
 #endif
 #if (defined(CONFIG_CRYPTO_DEV_HWCRYPTO_FOR_SDCARD) && !defined(CONFIG_CRYPTO_DEV_FOR_H1_SPRINT)) || defined(CONFIG_LGCRYPTO_FIPS_ENABLE)
 		rc = ecryptfs_calculate_sha256(dst, crypt_stat, src, (crypt_stat->iv_bytes + 16));
-#ifdef CONFIG_CRYPTO_DEV_KEY_INTEGRITY_CHECK
-		if ((cc_flag & FLAG_CC_MODE) == FLAG_CC_MODE)
-			rc = ecryptfs_calculate_sha256(key_hash, crypt_stat, crypt_stat->key, crypt_stat->key_size);
-#endif
 #else
 	    rc = ecryptfs_calculate_md5(dst, crypt_stat, src, (crypt_stat->iv_bytes + 16));
 #endif //CONFIG_CRYPTO_DEV_HWCRYPTO_FOR_SDCARD
@@ -502,17 +492,6 @@ int ecryptfs_derive_iv(char *iv, struct ecryptfs_crypt_stat *crypt_stat,
 				"MD5 while generating IV for a page\n");
 		goto out;
 	}
-
-#ifdef CONFIG_CRYPTO_DEV_KEY_INTEGRITY_CHECK
-	if ((cc_flag & FLAG_CC_MODE) == FLAG_CC_MODE) {
-		if (strncmp(key_hash, crypt_stat->key_hash, SHA256_HASH_SIZE)) {
-			printk("Error : Key integrity check fails\n");
-            ecryptfs_printk(KERN_ERR, " [CCAudit] Error : Key integrity check fails\n");
-			rc = -1;
-			goto out;
-		}
-	}
-#endif
 
 #ifdef CONFIG_CRYPTO_CCMODE
     if ((cc_flag & FLAG_CC_MODE) == FLAG_CC_MODE)
@@ -1078,9 +1057,6 @@ int ecryptfs_compute_root_iv(struct ecryptfs_crypt_stat *crypt_stat)
 #ifdef CONFIG_CRYPTO_CCMODE
     if ((cc_flag & FLAG_CC_MODE) == FLAG_CC_MODE) {
         memcpy(crypt_stat->root_iv, dst + 16, crypt_stat->iv_bytes);
-#ifdef CONFIG_CRYPTO_DEV_KEY_INTEGRITY_CHECK
-        memcpy(crypt_stat->key_hash, dst, SHA256_HASH_SIZE);
-#endif
 	}
     else
         memcpy(crypt_stat->root_iv, dst, crypt_stat->iv_bytes);
@@ -1104,6 +1080,7 @@ static void ecryptfs_generate_new_key(struct ecryptfs_crypt_stat *crypt_stat)
 #endif //CONFIG_CRYPTO_CCMODE
 	crypt_stat->flags |= ECRYPTFS_KEY_VALID;
 	ecryptfs_compute_root_iv(crypt_stat);
+
 	if (unlikely(ecryptfs_verbosity > 0)) {
 		ecryptfs_printk(KERN_DEBUG, "Generated new session key:\n");
 		ecryptfs_dump_hex(crypt_stat->key,

@@ -87,7 +87,7 @@ struct lge_hw_smem_id2_type {
     char lge_excep_msg[LEN_EXCEP_MSG];
 #endif
 };
-	
+
 #define subsys_to_drv(d) container_of(d, struct modem_data, subsys_desc)
 
 #ifdef FEATURE_LGE_MODEM_DEBUG_INFO

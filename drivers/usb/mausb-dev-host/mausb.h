@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
+
 #ifndef __MAUSB_H
 #define __MAUSB_H
 
@@ -29,7 +29,7 @@
 #define aManagementChannelDelay		2
 #define aMaxIsochLinkDelay		3
 #define MaxFrameDistance		895
-#define aManagementResponseTime		5	
+#define aManagementResponseTime		5
 #define aManagementRequestTimeout	(aManagementResponseTime + 2 * aManagementChannelDelay)
 #define aTransferResponseTime		10
 #define aTransferTimeout		(aTransferResponseTime + 2 * aDataChannelDelay)
@@ -38,7 +38,7 @@
 
 
 /*MA USB error code */ /* TODO set values */
-#define MAUSB_STATUS_INVALID_REQUEST		0 
+#define MAUSB_STATUS_INVALID_REQUEST		0
 #define MAUSB_STATUS_MISSING_REQUEST_ID		1
 #define MAUSB_STATUS_TRANSFER_PENDING		2
 #define MAUSB_STATUS_ERROR_XXX			3
@@ -47,7 +47,7 @@
 #define MAUSB_STATUS_DROPPED_PACKET		5
 #define MAUSB_STATUS_NO_ERROR			0
 
-#define TransferRespRetries			1 
+#define TransferRespRetries			1
 #define MAUSB_NO_ERROR				0 //TODO can we use MAUSB_STATUS_NO_ERROR
 
 
@@ -440,8 +440,8 @@ struct mausb_header {
     __u8	mass_id;
     /* DWORD 2 */
     __u8	status;
-	__u8	flags;	
-	__u16	stream_id; 
+	__u8	flags;
+	__u16	stream_id;
 	/* DWORD 3 */
 	__u16	sequ_no_req_id;
     /* DWORD 4 */
@@ -455,7 +455,7 @@ struct mausb_header {
  * @flag_version: identifies mausb protocol version
  * @type_subtype: identifies packet variant
  * @length: lenght of mausb packet including packet header
- * @ep_devhandle: handle of usb device or endpoint 
+ * @ep_devhandle: handle of usb device or endpoint
  * @ssid_devaddr: MA usb device address + MSS  to which MA USB device belongs
  * @status: indicates status of requested operation
  */
@@ -470,7 +470,7 @@ struct mausb_header_basic {
 
 /**
  * struct mausb_header_mgmt - header for all management packets
- * @dialog: diaglog token no 
+ * @dialog: diaglog token no
  * @reserved: fields not to be touched
  */
 
@@ -481,7 +481,7 @@ struct mausb_header_mgmt {
 
 /**
  * struct mausb_header_non_iso - header for all non-iso data packets
- * @tflags_eps: flags and endpoint status 
+ * @tflags_eps: flags and endpoint status
  * @streamid: stream id for e-super speed protocol
  */
 
@@ -494,7 +494,7 @@ struct mausb_header_non_iso {
 
 /**
  * struct mausb_header_iso - header for all iso data packets
- * @tflags_eps: flags and endpoint status 
+ * @tflags_eps: flags and endpoint status
  * @streamid: stream id for e-super speed protocol
  */
 
@@ -557,13 +557,13 @@ struct mausb_header {
 
 
 
-#if 0 
+#if 0
 /* returns the length field of the MAUSB packet */
 static int mausb_get_pkt_len(packet_info *pinfo _U_, tvbuff_t *tvb, int offset)
 {
     return tvb_get_letohs(tvb, offset + 2);
 }
-#endif 
+#endif
 
 /* Global Port Preference */
 #define USB_DT_EP_SIZE		    7
@@ -599,7 +599,7 @@ static int mausb_get_pkt_len(packet_info *pinfo _U_, tvbuff_t *tvb, int offset)
 #define INVALID_EP_HANDLE				131
 #define INVALID_EP_HANDLE_STATE			132
 #define INVALID_REQUEST					133
-#define MISSING_SEQUENCE_NUMBER			134 
+#define MISSING_SEQUENCE_NUMBER			134
 #define TRANSFER_PENDING				135
 #define TRANSFER_EP_STALL 				136
 #define TRANSFER_SIZE_ERROR				137
@@ -652,18 +652,18 @@ struct mausbdev
 	int    ResponseTimer;
 	int    TransferRespRetryCounter;
 	bool   ElasticBufferCap; // Update this based on device caps request response
-	bool   PayloadDeliveryFail; 
+	bool   PayloadDeliveryFail;
 	long   KeepAliveTimer;
 	int    Error;
 
 	/* MA USB OUT transfer variables */
 
-	int    Occupancy; //TODO initialize this 
+	int    Occupancy; //TODO initialize this
 	int    RxBufSize;
 	int    SequenceNo; // TODO can we not use SeqNumber ?
-	bool   ActiveTransferReq; //TODO remember to initialize it 
+	bool   ActiveTransferReq; //TODO remember to initialize it
 	bool   DroppedNotificationCap;
-	
+
 }__attribute__((packed));
 
 struct mausbres
@@ -735,7 +735,7 @@ int handle_mausb_pkt(struct mausb_device *ud, unsigned char *buff);
 void stub_send_mausb(struct mausb_device *ud, struct mausb_header *pdu);
 void mausbdev_in_stub_complete(struct urb *urb);
 /*void mausb_enqueue_ret_unlink(struct stub_device *sdev,
-									 	 struct stub_mausb_pal *pal,
+										 struct stub_mausb_pal *pal,
 										 __u32 seqnum,
 									     __u32 status);
 

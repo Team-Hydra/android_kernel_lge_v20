@@ -459,4 +459,3 @@ void oem_mdss_mq_access_set(struct mdss_dsi_ctrl_pdata *ctrl, bool enable)
 	mdss_dsi_panel_cmds_send(ctrl, &ctrl->mq_access_cmds, CMD_REQ_COMMIT);
 }
 #endif
-

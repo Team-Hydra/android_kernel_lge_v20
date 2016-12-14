@@ -1380,4 +1380,3 @@ void lg4946_watch_remove(struct device *dev)
 	struct lg4946_data *d = to_lg4946_data(dev);
 	kfree(d->watch.ext_wdata.font_data);
 }
-

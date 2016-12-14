@@ -3538,7 +3538,7 @@ static int hotplug_notify(enum thermal_trip_type type, int temp, void *data)
 		pr_err("Non-Masking core. Just Return.\n");
 		return 0;
 	}
-	
+
 	switch (type) {
 	case THERMAL_TRIP_CONFIGURABLE_HI:
 		if (!(cpu_node->offline))
@@ -3574,7 +3574,7 @@ static int hotplug_init_cpu_offlined(void)
 	long temp = 0;
 	uint32_t cpu = 0;
 
-	if (!hotplug_enabled || !hotplug_task)
+	if (!hotplug_enabled)
 		return 0;
 
 	mutex_lock(&core_control_mutex);
@@ -3599,7 +3599,8 @@ static int hotplug_init_cpu_offlined(void)
 #endif
 		if (temp >= msm_thermal_info.hotplug_temp_degC)
 			cpus[cpu].offline = 1;
-		else
+		else if (temp <= (msm_thermal_info.hotplug_temp_degC -
+			msm_thermal_info.hotplug_temp_hysteresis_degC))
 			cpus[cpu].offline = 0;
 #ifdef CONFIG_LGE_PM
 		}

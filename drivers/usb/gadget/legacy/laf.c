@@ -110,16 +110,16 @@ static int __init laf_do_config(struct usb_configuration *c)
 		printk(KERN_INFO " %s ENOMEM \n",__func__);
 		return -ENOMEM;
 	}
-	
-	laf_setup();	
-	
+
+	laf_setup();
+
 	status = laf_bind_config(c);
 	if (status < 0)
 	{
 		printk(KERN_INFO " %s laf_bind_config failed \n",__func__);
 		return status;
 	}
-	
+
 	return 0;
 }
 
@@ -156,14 +156,14 @@ static int __init laf_bind(struct usb_composite_dev *cdev)
 
 
 	//LAF
-	
+
 	/* register our configuration */
 	status = usb_add_config(cdev, &laf_config_driver,laf_do_config);
 	if (status < 0)
 		goto fail_string_ids;
-	
+
 	usb_composite_overwrite_options(cdev, &coverwrite);
-	
+
 	dev_info(&gadget->dev, "%s, version: " DRIVER_VERSION "\n",DRIVER_DESC);
 	printk(KERN_INFO "%s \n",__func__);
 	return 0;
@@ -224,4 +224,3 @@ static void __exit laf_mod_cleanup(void)
 	usb_composite_unregister(&laf_driver);
 }
 module_exit(laf_mod_cleanup);
-

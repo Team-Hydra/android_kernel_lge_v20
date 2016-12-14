@@ -230,5 +230,3 @@ typedef uint8_t VL53L0_GpioFunctionality;
 #endif
 
 /* _VL53L0_DEVICE_H_ */
-
-

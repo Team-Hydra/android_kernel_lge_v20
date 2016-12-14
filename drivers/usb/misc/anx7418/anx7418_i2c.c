@@ -355,4 +355,3 @@ int anx7418_write_block_reg(struct i2c_client *client,
 				__func__, reg, rc);
 	return rc;
 }
-

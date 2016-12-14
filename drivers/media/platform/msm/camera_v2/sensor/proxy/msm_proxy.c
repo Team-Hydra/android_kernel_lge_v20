@@ -16,7 +16,7 @@
 				       non-calibration module error, increased max-convergence time 05/06
 */
 
-#define pr_fmt(fmt) "%s:%d " fmt, __func__, __LINE__ 
+#define pr_fmt(fmt) "%s:%d " fmt, __func__, __LINE__
 
 #include <linux/module.h>
 #include "msm_sd.h"
@@ -336,20 +336,20 @@ int16_t OffsetCalibration(void)
 // for calibration
 	int32_t offsetComp;
 	int16_t offset;
-	
+
 	VL53L0_Error Status = VL53L0_ERROR_NONE; // no-target
-	
+
 	//int32_t OffsetCalibrationDataMicroMeter;
-	
+
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
 	pr_err("OffsetCalibration start!\n");
 
     if (moduleVersion == 1) // cut 1.1
 	{
 		//VL53L0_GetOffsetCalibrationDataMicroMeter(Dev, &OffsetCalibrationDataMicroMeter);
-		Status = VL53L0_PerformOffsetCalibration(Dev, 200<<16, &offsetComp); //(100) is 100mm target dis, &offsetComp is return  
+		Status = VL53L0_PerformOffsetCalibration(Dev, 200<<16, &offsetComp); //(100) is 100mm target dis, &offsetComp is return
 		offsetComp = offsetComp - st_offset;
-		
+
 		if ((offsetComp < 31000) && (offsetComp > (-63000)) && (Status == VL53L0_ERROR_NONE) ) {
 			pr_err("OffsetCalibration: spec in!\n");
 		} else {
@@ -361,31 +361,31 @@ int16_t OffsetCalibration(void)
 			else {
 				pr_err("OffsetCalibration: spec out!\n");
 			}
-		}		
+		}
 		pr_err("offsetComp:%d OffsetCalibrationDataMicroMeter: %d!\n",offsetComp, st_offset);
     }
 	else if(moduleVersion == 0) //cut1.0
-	{	
+	{
 		//VL53L0_GetOffsetCalibrationDataMicroMeter(Dev, &OffsetCalibrationDataMicroMeter);
 		VL53L0_PerformOffsetCalibration(Dev, 200<<16, &offsetComp); //(100) is 100mm target dis, &offsetComp is return
 		offsetComp = offsetComp - st_offset;
 
-	}	
+	}
 	offset = offsetComp/1000;
-	
+
 	pr_err("OffsetCalibration end!\n");
 	return offset;
 #else
 	//VL53L0_GetOffsetCalibrationDataMicroMeter(Dev, &OffsetCalibrationDataMicroMeter);
-	Status = VL53L0_PerformOffsetCalibration(Dev, 200<<16, &offsetComp); //(100) is 100mm target dis, &offsetComp is return  
+	Status = VL53L0_PerformOffsetCalibration(Dev, 200<<16, &offsetComp); //(100) is 100mm target dis, &offsetComp is return
 	offsetComp = offsetComp - st_offset;
-	
+
 	if ((offsetComp < 31000) && (offsetComp > (-63000)) && (Status == VL53L0_ERROR_NONE) ) {
 		pr_err("OffsetCalibration: spec in!\n");
 	} else {
 		VL53L0_RestoreOffset(Dev, st_offset);
 		pr_err("OffsetCalibration: spec out!\n");
-	}		
+	}
 	pr_err("offsetComp:%d OffsetCalibrationDataMicroMeter: %d!\n",offsetComp, st_offset);
 #endif
 
@@ -437,23 +437,23 @@ uint16_t proxy_get_from_sensor_EwokAPI(void)
 
 	uint16_t dist = 0;
 	VL53L0_Error api_err = 0;
-	
+
 	if (msm_proxy_t.check_init_finish != 2) {
 		return 0;
 	}
-	
+
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
-					
-	if (moduleVersion == 1) 
+
+	if (moduleVersion == 1)
 	{// cut 1.1
 		api_err = VL53L0_PerformSingleRangingMeasurement(Dev, &RangeData);
 	}
-	else if(moduleVersion == 0) 
-	{//cut1.0	
-	
+	else if(moduleVersion == 0)
+	{//cut1.0
+
 		VL53L010_PerformSingleRangingMeasurement(Dev, &RangeData);
 	}
-		
+
 #else
 	VL53L0_PerformSingleRangingMeasurement(Dev, &RangeData);
 #endif
@@ -472,7 +472,7 @@ uint16_t proxy_get_from_sensor_EwokAPI(void)
     msm_proxy_t.proxy_stat.measurement_time_usec = RangeData.MeasurementTimeUsec;
     msm_proxy_t.proxy_stat.signal_rtn_rate_mcps =  RangeData.SignalRateRtnMegaCps;
     msm_proxy_t.proxy_stat.effective_spad_rtn_count =  RangeData.EffectiveSpadRtnCount;
-	
+
 	return dist;
 }
 #endif
@@ -635,7 +635,7 @@ static void get_proxy(struct work_struct *work)
 	int16_t calCount = 0;
 	int16_t finVal = 0;
 	uint16_t moduleId = 0;
-	//uint32_t refSpadCount = 0;	
+	//uint32_t refSpadCount = 0;
 	//uint8_t isApertureSpads = 0;
 
 	while (1) {
@@ -679,7 +679,7 @@ static void get_proxy(struct work_struct *work)
 #else
 	#ifdef EWOK_API_IMPLEMENTATION
 			*proxy = proxy_get_from_sensor_EwokAPI();
-  	#else
+	#else
 			*proxy = proxy_get_from_sensor();
 	#endif
 #endif
@@ -957,7 +957,7 @@ int32_t msm_init_proxy(void)
 		pr_err("inot read offset = %d from eeprom\n", offsetByte);
 		proxy_i2c_write(SYSRANGE__PART_TO_PART_RANGE_OFFSET, offsetByte, 1);
 
-	} 
+	}
 
 	// Babybear_SetStraylight
 	ninepointseven = 25;
@@ -1552,7 +1552,7 @@ static int32_t msm_proxy_power_down(struct msm_proxy_ctrl_t *o_ctrl)
 
 static int msm_proxy_init(struct msm_proxy_ctrl_t *o_ctrl)
 {
-	int rc = 0;	
+	int rc = 0;
 	uint32_t retry = 0;
     uint16_t revision_id = 0;
 	CDBG("Enter\n");
@@ -1572,8 +1572,8 @@ static int msm_proxy_init(struct msm_proxy_ctrl_t *o_ctrl)
 
 		for (retry = 0; retry < 3; retry++) {
 			rc = proxy_i2c_read(0xc2, &revision_id, 1);
-			
-			if (rc < 0) { 
+
+			if (rc < 0) {
 				pr_err("i2c failed\n");
 				msleep(1);
 				continue;
@@ -1596,7 +1596,7 @@ static int32_t msm_proxy_config(struct msm_proxy_ctrl_t *proxy_ctrl,
 	CDBG("%s type %d\n", __func__, cdata->cfgtype);
 	switch (cdata->cfgtype) {
       case CFG_PROXY_INIT:
-        rc = msm_proxy_init(proxy_ctrl); 
+        rc = msm_proxy_init(proxy_ctrl);
 		if (rc < 0)
 			    pr_err("msm_proxy_init failed %d\n", rc);
         break;
@@ -1604,7 +1604,7 @@ static int32_t msm_proxy_config(struct msm_proxy_ctrl_t *proxy_ctrl,
         rc = msm_init_proxy();
         pr_err("%s: Proxy is on! error_code = %d  \n", __func__, rc);
         break;
-      } 
+      }
       case CFG_GET_PROXY:{
         struct msm_proxy_info_t proxy_stat;
         uint16_t read_proxy_data = 0;
@@ -1868,7 +1868,7 @@ static int32_t msm_proxy_platform_probe(struct platform_device *pdev)
 		return rc;
 	}
 
- 	msm_proxy_t.proxy_mutex = &msm_proxy_mutex;
+	msm_proxy_t.proxy_mutex = &msm_proxy_mutex;
 	msm_proxy_t.pdev = pdev;
 
 	msm_proxy_t.proxy_device_type = MSM_CAMERA_PLATFORM_DEVICE;
@@ -1890,7 +1890,7 @@ static int32_t msm_proxy_platform_probe(struct platform_device *pdev)
 
 	cci_client = msm_proxy_t.i2c_client.cci_client;
 	cci_client->cci_subdev = msm_cci_get_subdev();
-	
+
 #ifdef CONFIG_LG_PROXY   //separate eeprom from i2c
 	msm_proxy_t.i2c_eeprom_client.i2c_func_tbl = &msm_sensor_cci_func_tbl;
 	msm_proxy_t.i2c_eeprom_client.cci_client = kzalloc(sizeof(
@@ -1906,7 +1906,7 @@ static int32_t msm_proxy_platform_probe(struct platform_device *pdev)
 	cci_eeprom_client->cci_i2c_master = msm_proxy_t.cci_master;
 #endif
 
-	
+
 	v4l2_subdev_init(&msm_proxy_t.msm_sd.sd,
 					 msm_proxy_t.proxy_v4l2_subdev_ops);
 	v4l2_set_subdevdata(&msm_proxy_t.msm_sd.sd, &msm_proxy_t);
@@ -2013,23 +2013,23 @@ int msm_init_proxy_EwokAPI(void)
 	FixPoint1616_t XTalkCompMegaCps;
 	int16_t finVal = 0;
 	uint16_t moduleId = 0;
-	uint32_t refSpadCount = 0;	
+	uint32_t refSpadCount = 0;
 	uint8_t isApertureSpads = 0;
-	
+
 	pr_err("msm_init_proxy_EwokAPI(): Starting...\n");
 	msm_proxy_t.check_init_finish = 1;  //Init start
-	
+
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
 // get device info.
 	VL53L0_GetProductRevision(Dev, &moduleMainVersion, &moduleVersion);
 
 
-// VL53L0_GetVersion	
+// VL53L0_GetVersion
     if(Status == VL53L0_ERROR_NONE)
     {
-        if(moduleVersion == 1) 
+        if(moduleVersion == 1)
 		{// cut 1.1
-        	
+
 			if(Status == VL53L0_ERROR_NONE)
 			{
 				status_int = VL53L0_GetVersion(pVersion);
@@ -2040,7 +2040,7 @@ int msm_init_proxy_EwokAPI(void)
 				}
         }
 		else if(moduleVersion == 0)
-		{//cut1.0	
+		{//cut1.0
 			if(Status == VL53L0_ERROR_NONE)
 			{
 				status_int = VL53L010_GetVersion(pVersion);
@@ -2059,28 +2059,28 @@ int msm_init_proxy_EwokAPI(void)
 
 	if(Status == VL53L0_ERROR_NONE)
 	{
-		
-        if(moduleVersion == 1) 
+
+        if(moduleVersion == 1)
 		{// cut 1.1
 			status_int = VL53L0_GetVersion(pVersion);
 			if (status_int != 0)
 				Status = VL53L0_ERROR_CONTROL_INTERFACE;
         }
-		
+
 		else if(moduleVersion == 0)
 		{//cut1.0
 			Status = VL53L0_ERROR_NOT_SUPPORTED;
-		}		
+		}
 	} else {
 		return Status;
 		}
 #endif
 
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
-		
+
 		if(Status == VL53L0_ERROR_NONE)
 		{
-			if (moduleVersion == 1) 
+			if (moduleVersion == 1)
 			{// cut 1.1
 				if(Status == VL53L0_ERROR_NONE)
 				{
@@ -2088,7 +2088,7 @@ int msm_init_proxy_EwokAPI(void)
 				} else {
 					return Status;
 					}
-				
+
 				if(Status == VL53L0_ERROR_NONE)
 				{
 					Status = VL53L0_StaticInit(Dev); // Device Initialization
@@ -2101,15 +2101,15 @@ int msm_init_proxy_EwokAPI(void)
 					return Status;
 					}
 			}
-			else if(moduleVersion == 0) 
-			{//cut1.0	
+			else if(moduleVersion == 0)
+			{//cut1.0
 				if(Status == VL53L0_ERROR_NONE)
 				{
 					Status = VL53L010_DataInit(Dev); // Data initialization
 				} else {
 					return Status;
 					}
-				
+
 				if(Status == VL53L0_ERROR_NONE)
 				{
 					Status = VL53L010_StaticInit(Dev); // Device Initialization
@@ -2126,7 +2126,7 @@ int msm_init_proxy_EwokAPI(void)
 		} else {
 			return Status;
 			}
-			
+
 #else
 		if(Status == VL53L0_ERROR_NONE)
 		{
@@ -2134,14 +2134,14 @@ int msm_init_proxy_EwokAPI(void)
 		} else {
 			return Status;
 			}
-	
+
 		if(Status == VL53L0_ERROR_NONE)
 		{
 			Status = VL53L0_StaticInit(Dev); // Device Initialization
 		} else {
 			return Status;
 			}
-		
+
 #endif
 
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
@@ -2149,7 +2149,7 @@ int msm_init_proxy_EwokAPI(void)
 	if (moduleVersion == 1)
 	{ //readRangeOffset
 		proxy_i2c_e2p_read(0x700, &moduleId, 1);
-		
+
 //		if ((moduleId == 0x00) || (moduleId == 0x01) || (moduleId == 0x02)) {
 			proxy_i2c_e2p_read(IT_EEP_REG, &finVal, 2);
 			e2p_offset = 0x00FF & finVal;
@@ -2168,7 +2168,7 @@ int msm_init_proxy_EwokAPI(void)
 		pr_err("read offset = %d from eeprom\n", e2p_offset);
 		VL53L0_GetOffsetCalibrationDataMicroMeter(Dev,&st_offset);
 		sensor_offset = (int8_t)((st_offset/1000) + e2p_offset);
-		VL53L0_SetOffsetCalibrationDataMicroMeter(Dev,(int32_t)(sensor_offset*1000)); 
+		VL53L0_SetOffsetCalibrationDataMicroMeter(Dev,(int32_t)(sensor_offset*1000));
 		pr_err("e2p_offset = %d, st_offset = %d, sensor_offset = %d\n", e2p_offset, st_offset, sensor_offset);
 	}
 	else if(moduleVersion == 0)
@@ -2196,7 +2196,7 @@ int msm_init_proxy_EwokAPI(void)
 			sensor_offset = (int8_t)((st_offset/1000) + e2p_offset);
 			VL53L010_SetOffsetCalibrationDataMicroMeter(Dev,(int32_t)(sensor_offset*1000));
 
-		} 
+		}
 	}
 #else
 //readRangeOffset
@@ -2221,14 +2221,14 @@ int msm_init_proxy_EwokAPI(void)
 			sensor_offset = (int8_t)((st_offset/1000) + e2p_offset);
 			VL53L0_SetOffsetCalibrationDataMicroMeter(Dev,(int32_t)(sensor_offset*1000));
 
-		} 
+		}
 
 #endif
 
 
 // calibration **********************************
 
-	
+
 	{ // forced x-talk cal
 #ifdef CONFIG_MACH_MSM8996_ELSA
 	XTalkCompMegaCps = 8; // glass window
@@ -2241,14 +2241,14 @@ int msm_init_proxy_EwokAPI(void)
 		} else {
 			return Status;
 			}
-	
+
 	//Enable the XTalk compensation
 	if (Status == VL53L0_ERROR_NONE) {
 		Status = VL53L0_SetXTalkCompensationRateMegaCps(Dev,XTalkCompMegaCps);
 		} else {
 			return Status;
 			}
-			
+
 	}
 
 // calibration **********************************
@@ -2256,8 +2256,8 @@ int msm_init_proxy_EwokAPI(void)
 
 
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
-			
-		if (moduleVersion == 1) 
+
+		if (moduleVersion == 1)
 		{// cut 1.1
 			if(Status == VL53L0_ERROR_NONE)
 			{
@@ -2265,7 +2265,7 @@ int msm_init_proxy_EwokAPI(void)
 				 *	Setup the Limit SIGMA and Signal Rate
 				 */
 				if (Status == VL53L0_ERROR_NONE) {
-					Status = VL53L0_SetLimitCheckEnable(Dev, 
+					Status = VL53L0_SetLimitCheckEnable(Dev,
 						VL53L0_CHECKENABLE_SIGMA_FINAL_RANGE, 1);
 				} else {
 					return Status;
@@ -2273,26 +2273,26 @@ int msm_init_proxy_EwokAPI(void)
 				if(Status == VL53L0_ERROR_NONE)
 				{
 					SigmaLimitValue = 15 << 16;
-					Status = VL53L0_SetLimitCheckValue(Dev, 
+					Status = VL53L0_SetLimitCheckValue(Dev,
 						VL53L0_CHECKENABLE_SIGMA_FINAL_RANGE, SigmaLimitValue);
 				} else {
 					return Status;
 					}
 				if (Status == VL53L0_ERROR_NONE) {
-					Status = VL53L0_SetLimitCheckEnable(Dev, 
+					Status = VL53L0_SetLimitCheckEnable(Dev,
 						VL53L0_CHECKENABLE_RANGE_IGNORE_THRESHOLD, 1);
 				} else {
 					return Status;
 					}
 				if(Status == VL53L0_ERROR_NONE)
 				{
-					Status = VL53L0_SetLimitCheckValue(Dev, 
+					Status = VL53L0_SetLimitCheckValue(Dev,
 						VL53L0_CHECKENABLE_RANGE_IGNORE_THRESHOLD, (XTalkCompMegaCps * 15)/10);
 				} else {
 					return Status;
 					}
-		
-				
+
+
 				if (Status == VL53L0_ERROR_NONE) {
 					Status = VL53L0_SetMeasurementTimingBudgetMicroSeconds(Dev, 33000);//11130);
 				} else {
@@ -2301,7 +2301,7 @@ int msm_init_proxy_EwokAPI(void)
 			}
 		}
 		else if(moduleVersion == 0)
-		{//cut1.0	
+		{//cut1.0
 			if(Status == VL53L0_ERROR_NONE)
 			{
 				/*
@@ -2310,23 +2310,23 @@ int msm_init_proxy_EwokAPI(void)
 				if(Status == VL53L0_ERROR_NONE)
 				{
 					SigmaLimitValue = 15 << 16;
-					Status = VL53L010_SetLimitCheckValue(Dev, 
+					Status = VL53L010_SetLimitCheckValue(Dev,
 						VL53L010_CHECKENABLE_SIGMA_FINAL_RANGE, SigmaLimitValue);
 				} else {
 					return Status;
 					}
 				if(Status == VL53L0_ERROR_NONE)
 				{
-					Status = VL53L010_GetLimitCheckValue(Dev, 
+					Status = VL53L010_GetLimitCheckValue(Dev,
 						VL53L010_CHECKENABLE_SIGMA_FINAL_RANGE, &SigmaLimitValue);
 				} else {
 					return Status;
 					}
-			
+
 				if(Status == VL53L0_ERROR_NONE)
 				{
 					SignalLimitValue = (FixPoint1616_t)(0.02 * 65536);
-					Status = VL53L010_SetLimitCheckValue(Dev, 
+					Status = VL53L010_SetLimitCheckValue(Dev,
 						VL53L010_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE, SignalLimitValue);
 				} else {
 					return Status;
@@ -2340,13 +2340,13 @@ int msm_init_proxy_EwokAPI(void)
 					}
 				// Enable/Disable Sigma and Signal check
 				if (Status == VL53L0_ERROR_NONE) {
-					Status = VL53L010_SetLimitCheckEnable(Dev, 
+					Status = VL53L010_SetLimitCheckEnable(Dev,
 						VL53L010_CHECKENABLE_SIGMA_FINAL_RANGE, 1);
 				} else {
 					return Status;
 					}
 				if (Status == VL53L0_ERROR_NONE) {
-					Status = VL53L010_SetLimitCheckEnable(Dev, 
+					Status = VL53L010_SetLimitCheckEnable(Dev,
 						VL53L010_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE, 1);
 				} else {
 					return Status;
@@ -2358,9 +2358,9 @@ int msm_init_proxy_EwokAPI(void)
 					}
 			} else {
 				return Status;
-				}		
+				}
 		}
-				
+
 #else
 		if(Status == VL53L0_ERROR_NONE)
 		{
@@ -2370,28 +2370,28 @@ int msm_init_proxy_EwokAPI(void)
 			if(Status == VL53L0_ERROR_NONE)
 			{
 				SigmaLimitValue = 15 << 16;
-				Status = VL53L0_SetLimitCheckValue(Dev, 
+				Status = VL53L0_SetLimitCheckValue(Dev,
 					VL53L0_CHECKENABLE_SIGMA_FINAL_RANGE, SigmaLimitValue);
 			} else {
 				return Status;
 				}
 			if(Status == VL53L0_ERROR_NONE)
 			{
-				Status = VL53L0_GetLimitCheckValue(Dev, 
+				Status = VL53L0_GetLimitCheckValue(Dev,
 					VL53L0_CHECKENABLE_SIGMA_FINAL_RANGE, &SigmaLimitValue);
 			} else {
 				return Status;
 				}
-		
+
 			// Enable/Disable Sigma and Signal check
 			if (Status == VL53L0_ERROR_NONE) {
-				Status = VL53L0_SetLimitCheckEnable(Dev, 
+				Status = VL53L0_SetLimitCheckEnable(Dev,
 					VL53L0_CHECKENABLE_SIGMA_FINAL_RANGE, 1);
 			} else {
 				return Status;
 				}
 			if (Status == VL53L0_ERROR_NONE) {
-				Status = VL53L0_SetLimitCheckEnable(Dev, 
+				Status = VL53L0_SetLimitCheckEnable(Dev,
 					VL53L0_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE, 1);
 			} else {
 				return Status;
@@ -2407,17 +2407,17 @@ int msm_init_proxy_EwokAPI(void)
 #endif
 
 #ifdef COMPATIBILITY_CUT_1_0_CUT_1_1
-			
-		if (moduleVersion == 1)  
+
+		if (moduleVersion == 1)
 		{// cut 1.1
-			VL53L0_SetDeviceMode(Dev, VL53L0_DEVICEMODE_SINGLE_RANGING); // Setup in single ranging mode					
+			VL53L0_SetDeviceMode(Dev, VL53L0_DEVICEMODE_SINGLE_RANGING); // Setup in single ranging mode
 		}
-		else if(moduleVersion == 0) 
-		{//cut1.0	
+		else if(moduleVersion == 0)
+		{//cut1.0
 			VL53L010_GetMeasurementDataReady(Dev, &pMeasurementDataReady);
 			VL53L010_SetDeviceMode(Dev, VL53L0_DEVICEMODE_SINGLE_RANGING); // Setup in single ranging mode
 		}
-			
+
 #else
 		VL53L0_SetDeviceMode(Dev, VL53L0_DEVICEMODE_SINGLE_RANGING); // Setup in single ranging mode
 #endif
@@ -2428,7 +2428,7 @@ int msm_init_proxy_EwokAPI(void)
 		return -1;
 	} else
 		msm_proxy_t.check_init_finish = 2; // Init Complete
-	
+
 	pr_err("msm_init_proxy_EwokAPI(): End!\n");
 	return 0;
 }

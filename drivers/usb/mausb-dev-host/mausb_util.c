@@ -126,5 +126,3 @@ unsigned int mausb_get_uint24(unsigned char *buff, const int offset, const int l
 
 	return val;
 }
-
-

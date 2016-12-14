@@ -747,4 +747,3 @@ config LGE_ADAPTIVE_READAHEAD
 	default n
 	help
 	  lge adaptive readahead set enable
-

@@ -959,4 +959,3 @@ static void create_sysfs(void)
 
 fs_initcall(init);
 module_exit(texit);
-

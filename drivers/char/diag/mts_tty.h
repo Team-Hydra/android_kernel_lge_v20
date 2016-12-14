@@ -89,4 +89,3 @@ extern struct mts_tty *mts_tty;
 int mts_tty_process(char *, int);
 //int mts_tty_send_mask(struct diag_request *diag_read_ptr);
 #endif /* MTSK_TTY_H_ */
-

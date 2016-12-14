@@ -2,7 +2,7 @@
 
 
 #ifdef DEBUG
-		
+
 #define DBG_LEVEL_LOW	0
 #define DBG_LEVEL_MEDIUM 1
 #define DBG_LEVEL_HIGH	2
@@ -23,7 +23,7 @@
 
 
 #define CURRENTLEVEL	0//sandeep
-		
+
 #define LG_PRINT(dbglvl,trnsfr,fmt,args...) \
 				if(dbglvl >= CURRENTLEVEL )	\
 				{ \
@@ -43,13 +43,13 @@
 						printk(KERN_INFO " \nMAUSB: MAIN:"fmt,##args); \
 					if (trnsfr == DATA_TRANS_DUMP)	\
 						printk(KERN_INFO " \nMAUSB: DUMP:"fmt,##args); \
-				}	
+				}
 
 #else
 
 #define LG_PRINT(dbglvl,trnsfr,fmt,args...) \
 	while(0);
-			
+
 #endif
 
 
@@ -67,4 +67,3 @@ unsigned char mausb_get_sequence_number(struct mausb_header *header);
 unsigned char mausb_get_uint8(unsigned char *buff, const int offset, const int length);
 unsigned short mausb_get_uint16(unsigned char *buff, const int offset, const int length);
 unsigned int mausb_get_uint24(unsigned char *buff, const int offset, const int length);
-

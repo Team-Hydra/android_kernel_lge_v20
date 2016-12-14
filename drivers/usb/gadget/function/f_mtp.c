@@ -1944,7 +1944,7 @@ mtp_function_bind(struct usb_configuration *c, struct usb_function *f)
 	if (ret)
 		return ret;
 	dev->first_mtp_binded = true;
-#else	
+#else
 	ret = mtp_create_bulk_endpoints(dev, &mtp_fullspeed_in_desc,
 			&mtp_fullspeed_out_desc, &mtp_intr_desc);
 	if (ret)
@@ -1979,7 +1979,7 @@ mtp_function_unbind(struct usb_configuration *c, struct usb_function *f)
 	struct mtp_dev	*dev = func_to_mtp(f);
 	struct usb_request *req;
 	int i;
-	
+
 #ifdef CONFIG_LGE_USB_G_MULTIPLE_CONFIGURATION
 	if (!dev->allocated_func) {
 		dev->state = STATE_OFFLINE;
@@ -2195,7 +2195,7 @@ multiple_mtp:
 #endif
 
 	return usb_add_function(c, &dev->function2);
-#endif	
+#endif
 }
 
 static int debug_mtp_read_stats(struct seq_file *s, void *unused)

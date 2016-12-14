@@ -720,7 +720,7 @@ VL53L0_API VL53L0_Error VL53L0_GetSequenceStepEnables(VL53L0_DEV Dev,
  *                                       supported.
  * @return  "Other error code"           See ::VL53L0_Error
  */
-#if 0 
+#if 0
 VL53L0_API VL53L0_Error VL53L0_SetSequenceStepTimeout(VL53L0_DEV Dev,
                     VL53L0_SequenceStepId SequenceStepId, FixPoint1616_t TimeOutMilliSecs);
 
@@ -762,7 +762,7 @@ VL53L0_API VL53L0_Error VL53L0_GetNumberOfSequenceSteps(VL53L0_DEV Dev,
                     uint8_t* pNumberOfSequenceSteps);
 #endif
 
-#if 0 
+#if 0
 
 /**
  * @brief Gets the name of a given sequence step.

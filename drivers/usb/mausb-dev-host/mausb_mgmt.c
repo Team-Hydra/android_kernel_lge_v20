@@ -78,7 +78,7 @@ static int mausb_mgmt_get_size_ep_des(char *buff, int offset)
 #endif
 /* be in spin_lock_irqsave(&sdev->priv_lock, flags) */
 void mausb_enqueue_ret_unlink(struct stub_device *sdev,
-									 	 struct stub_mausb_pal *pal,
+										 struct stub_mausb_pal *pal,
 										 __u32 seqnum,
 									     __u32 status)
 {
@@ -210,7 +210,7 @@ static int mausb_mgmt_handle_pkt(struct mausb_device *ud,
 			wake_up(&sdev->tx_waitq);
 			LG_PRINT(DBG_LEVEL_MEDIUM,DATA_TRANS_MGMT,"wakeup tx");
 			break;
-    	}
+	}
     case CancelTransferResp:
 		 break;
     case EPOpenStreamReq:
@@ -279,7 +279,7 @@ static inline int mausb_mgmt_dissect_pkt(struct mausb_device *ud, struct stub_ma
     /* MAUSB Protocol Version */
     header.ver_flags = mausb_get_uint8(buff, offset, sizeof(struct mausb_header));
 
- 	printk(KERN_INFO "header.ver_flags: %x\n",header.ver_flags);
+	printk(KERN_INFO "header.ver_flags: %x\n",header.ver_flags);
     /* Flags */
     offset += 1;
 
@@ -345,9 +345,9 @@ static inline int mausb_mgmt_dissect_pkt(struct mausb_device *ud, struct stub_ma
         /* EPS */
         header.u.s.eps_tflags = mausb_get_uint8(buff, offset, sizeof(struct mausb_header));
         if (mausb_is_from_host(&header)) {
-        	printk(KERN_INFO "mausb is form host\n");
+		printk(KERN_INFO "mausb is form host\n");
         } else {
-        	printk(KERN_INFO "mausb is form device\n");
+		printk(KERN_INFO "mausb is form device\n");
         }
 
 
@@ -357,24 +357,24 @@ static inline int mausb_mgmt_dissect_pkt(struct mausb_device *ud, struct stub_ma
         /* Stream ID (non-iso) */
         header.u.s.stream_id = mausb_get_uint16(buff, offset, sizeof(struct mausb_header));
         offset += 2;
-       	printk(KERN_INFO "header.u.s.stream_id: %x \n",header.u.s.stream_id );
+	printk(KERN_INFO "header.u.s.stream_id: %x \n",header.u.s.stream_id );
         /* Number of Headers (iso) */
         /* I-Flags (iso) */
 
         /* Sequence Number */
         header.u.s.seq_num = mausb_get_uint24(buff, offset, sizeof(struct mausb_header));
         offset += 3;
-       	printk(KERN_INFO "header.u.s.seq_num: %x \n",header.u.s.seq_num );
+	printk(KERN_INFO "header.u.s.seq_num: %x \n",header.u.s.seq_num );
 
         /* Request ID */
         header.u.s.req_id = mausb_get_uint8(buff, offset, sizeof(struct mausb_header));
         offset += 1;
-       	printk(KERN_INFO " header.u.s.req_id: %x\n", header.u.s.req_id);
+	printk(KERN_INFO " header.u.s.req_id: %x\n", header.u.s.req_id);
 
         /* Remaining Size/Credit (non-iso) */
         header.u.s.credit = mausb_get_uint8(buff, offset, sizeof(struct mausb_header));
         offset += 4;
-       	printk(KERN_INFO " header.u.s.credit: %x\n", header.u.s.credit);
+	printk(KERN_INFO " header.u.s.credit: %x\n", header.u.s.credit);
 
         /* Presentation Time (iso) */
         /* Number of Segments (iso) */
@@ -386,7 +386,7 @@ static inline int mausb_mgmt_dissect_pkt(struct mausb_device *ud, struct stub_ma
 
         /* Everything after the header is payload */
         payload_len = header.length - offset;
-       	printk(KERN_INFO "payload_len: %d \n",payload_len );
+	printk(KERN_INFO "payload_len: %d \n",payload_len );
 
         if (0 < payload_len) {
              offset += payload_len;
@@ -454,4 +454,3 @@ int stub_pal_mgnt_loop(void *data)
 	return 0;
 }
 #endif
-

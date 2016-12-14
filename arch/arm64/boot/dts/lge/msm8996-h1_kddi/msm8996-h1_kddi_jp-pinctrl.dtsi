@@ -121,11 +121,11 @@
 					function = "gpio";
 				};
 
-	    			config {
-	    				pins = "gpio81", "gpio24", "gpio61";
-	    				drive-strength = <2>;
-	    				bias-disable = <0>;
-	    			};
+				config {
+					pins = "gpio81", "gpio24", "gpio61";
+					drive-strength = <2>;
+					bias-disable = <0>;
+				};
 			};
 		};
 //[H1_BT_BRINGUP_E]
@@ -145,7 +145,7 @@
 					bias-disable;
 				};
 			};
-		
+
 			i2c_3_active: i2c_3_active {
 				mux {
 					pins = "gpio47", "gpio48"; // SDA, SCL
@@ -172,7 +172,7 @@
 				};
 			};
 		};
-		
+
 		pmx_isdbt_ctrl_pin {
 			isdbt_ctrl_pin: isdbt_ctrl_pin {
 				mux {
@@ -1047,7 +1047,7 @@
 					bias-disable;
 				};
 			};
-			
+
 			anx7418_interrupt_sleep: anx7418_interrupt_sleep {
 				mux {
 					pins = "gpio132";
@@ -1238,7 +1238,7 @@
 					bias-pull-up;
 				};
 			};
-			
+
 			pcie1_perst_default: pcie1_perst_default {
 				mux {
 					pins = "gpio130";
@@ -1251,7 +1251,7 @@
 					bias-pull-down;
 				};
 			};
-			
+
 			pcie1_wake_default: pcie1_wake_default {
 				mux {
 					pins = "gpio132";
@@ -1276,8 +1276,8 @@
 					drive-strength = <2>;
 					bias-disable;
 				};
-			}; 
-			
+			};
+
 			pcie1_wake_sleep: pcie1_wake_sleep {
 				mux {
 					pins = "gpio132";

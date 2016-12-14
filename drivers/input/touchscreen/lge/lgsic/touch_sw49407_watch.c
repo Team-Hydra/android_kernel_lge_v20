@@ -1398,4 +1398,3 @@ void sw49407_watch_remove(struct device *dev)
 	struct sw49407_data *d = to_sw49407_data(dev);
 	kfree(d->watch.ext_wdata.font_data);
 }
-

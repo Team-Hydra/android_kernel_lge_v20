@@ -21,4 +21,3 @@ struct fpc_btp_platform_data {
 };
 
 #endif
-

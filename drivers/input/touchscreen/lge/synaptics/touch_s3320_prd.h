@@ -37,5 +37,3 @@ int s3320_prd_register_sysfs(struct device *dev);
 int synaptics_prd_handle(struct device *dev);
 
 #endif
-
-

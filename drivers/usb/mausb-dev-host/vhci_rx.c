@@ -116,12 +116,12 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
 			urb->status = 0;
 			printk(KERN_INFO "\n Short Packet flag is not set");
 		}
-	}		
+	}
 	else if (status == TRANSFER_EP_STALL)
 	{
-		urb->status = -EPIPE;	
+		urb->status = -EPIPE;
 		printk(KERN_INFO "\n Broken Pipe");
-	}	
+	}
 	else
 		urb->status = 0;
 
@@ -131,7 +131,7 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
 
 	//printk(KERN_INFO"## Setting  URB actual length to:%d ,transfer_length:%d,pdu.base.length:%d , header length:%d \n", urb->actual_length,transfer_length,pdu->base.length,sizeof(struct mausb_header));
 
-	
+
 	/* recv transfer buffer */
 	if (mausb_recv_xbuff(ud, urb) < 0)
 		return;
@@ -140,7 +140,7 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
 	{
 		urb->actual_length = urb->transfer_buffer_length;
 	}
-	
+
 	/* recv iso_packet_descriptor */
 	if (mausb_recv_iso(ud, urb) < 0)
 		return;
@@ -205,7 +205,7 @@ static void vhci_recv_ret_unlink(struct vhci_device *vdev,
 	unlink = dequeue_pending_unlink(vdev, pdu);
 	if (!unlink) {
 		pr_info("cannot find the pending unlink %u\n",
-	 		mausb_generate_seqnum(pdu));
+			mausb_generate_seqnum(pdu));
 		return;
 	}
 
@@ -315,7 +315,7 @@ static void vhci_rx_pdu(struct mausb_device *ud)
 //	case MAUSB_PKT_TYPE_CTRL:
 		//vhci_recv_ret_ctrl(vde,&pdu); //TODO
 //		break;
-		
+
 	default:
 		/* NOT REACHED */
 		pr_err("unknown pdu type %u\n", pdu.base.type_subtype >> 6);

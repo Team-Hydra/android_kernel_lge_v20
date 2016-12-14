@@ -253,7 +253,7 @@ config MACH_MSM8996_ELSA_GLOBAL_LIVE_DUMMY
 	select MACH_LGE
 	help
 	  Support for the Qualcomm MSM8996 ELSA_GLOBAL_COM device.
-	  
+
 config MACH_MSM8996_ELSA_GLOBAL_CA
 	bool "MSM8996 ELSA_GLOBAL CA"
 	depends on ARCH_MSM8996
@@ -274,7 +274,7 @@ config MACH_MSM8996_ELSA_KDDI_JP
 	select MACH_LGE
 	help
 	  Support for the Qualcomm MSM8996 ELSA_KDDI_JP device.
-	  	  
+
 config MACH_MSM8996_ELSA_DCM_JP
 	bool "MSM8996 ELSA_DCM_JP"
 	depends on ARCH_MSM8996
@@ -386,7 +386,7 @@ config PRE_SELF_DIAGNOSIS
 	depends on MACH_LGE
 	help
 	  LGE self diagnosis
-	  
+
 config LGE_PANEL_MAKER_ID_SUPPORT
 	tristate "Support pseudo battery mode"
 	depends on MACH_LGE

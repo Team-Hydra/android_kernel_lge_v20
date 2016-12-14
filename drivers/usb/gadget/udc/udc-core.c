@@ -472,7 +472,7 @@ int usb_gadget_probe_driver(struct usb_gadget_driver *driver)
 
 	mutex_lock(&udc_lock);
 	list_for_each_entry(udc, &udc_list, list) {
-			printk(KERN_INFO "gadget name udc->gadget->name %s \n",udc->gadget->name);			
+			printk(KERN_INFO "gadget name udc->gadget->name %s \n",udc->gadget->name);
 			count++;
 	}
 	printk(KERN_INFO "\n********************************************");
@@ -483,13 +483,13 @@ int usb_gadget_probe_driver(struct usb_gadget_driver *driver)
 		if ((udc->dev).init_name)
 		printk(KERN_INFO "\n UDC Name: %s",(udc->dev).init_name);
 		if (udc_flag == 0)
-			if ((!strcmp(driver->function,"printer")) || 
+			if ((!strcmp(driver->function,"printer")) ||
 
 				(!strcmp(driver->function,"mausb_diag")) ||
 				(!strcmp(driver->function,"laf_mausb")) ||
 				(!strcmp(driver->function,"adb"))) {
 					udc_flag = 1;
-					continue;	
+					continue;
 				}
 		printk(KERN_INFO "\n udc->gadget->usb_core_id : %d",udc->gadget->usb_core_id);
 		printk(KERN_INFO "\n driver->usb_core_id: %d \n",driver->usb_core_id);

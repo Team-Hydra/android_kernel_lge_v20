@@ -546,7 +546,7 @@ int32_t tcs3490_Read_all(struct msm_tcs_ctrl_t* state)
 	state->als_inf.red_raw	= ((0xFF & temp_data_clr[3]) << 8) | (0xFF & temp_data_clr[2]);
 	state->als_inf.green_raw  =((0xFF & temp_data_clr[5]) << 8) | (0xFF & temp_data_clr[4]);
 	state->als_inf.blue_raw  =((0xFF & temp_data_clr[7]) << 8) | (0xFF & temp_data_clr[6]);
-	
+
 	state->als_inf.ir=((0xFF & temp_data_ir[1]) << 8) | (0xFF & temp_data_ir[0]);
 	R_temp = ((0xFF & temp_data_ir[3]) << 8) | (0xFF & temp_data_ir[2]);
 	G_temp  =((0xFF & temp_data_ir[5]) << 8) | (0xFF & temp_data_ir[4]);
@@ -587,4 +587,3 @@ int32_t  tcs3490_device_Scan_All_Data(struct msm_tcs_ctrl_t* state)
 
 	return ret;
 }
-

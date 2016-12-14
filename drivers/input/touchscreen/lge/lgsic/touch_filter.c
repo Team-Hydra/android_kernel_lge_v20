@@ -130,4 +130,3 @@ report_debug_info:
 	TOUCH_I("debug info logging start\n");
 	return DEBUG_REPORT;
 }
-

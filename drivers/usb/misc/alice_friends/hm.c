@@ -87,7 +87,7 @@ static struct hm_instance *__must_check __hm_register(struct device *parent)
 		return ERR_PTR(-ENOMEM);
 
 	mdev = &hm->mdev;
-	
+
 	mdev->minor = MISC_DYNAMIC_MINOR;
 	mdev->name = "alice_friends_hm";
 	mdev->parent = parent;

@@ -133,4 +133,3 @@ module_exit(lge_smpl_count_exit);
 
 MODULE_DESCRIPTION("LGE smpl_count");
 MODULE_LICENSE("GPL");
-

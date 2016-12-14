@@ -20,7 +20,7 @@
 &soc {
 //[ANNA_ISDBT_BRINGUP_S] : duplicated
 /*
-	blsp1_uart3: uart@7571000 { //  BLSP1 UART3 
+	blsp1_uart3: uart@7571000 { //  BLSP1 UART3
 		compatible = "qcom,msm-hsuart-v14";
 		reg = <0x7571000 0x200>,
 		    <0x7544000 0x2b000>;

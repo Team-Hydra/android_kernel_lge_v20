@@ -92,13 +92,13 @@
         (x)->i_mode = ((x)->i_mode & S_IFMT) | SDCARDFS_I(x)->d_mode; \
 	} while (0)
 
-/* OVERRIDE_CRED() and REVERT_CRED() 
- * 	OVERRID_CRED() 
+/* OVERRIDE_CRED() and REVERT_CRED()
+ * 	OVERRID_CRED()
  * 		backup original task->cred
  * 		and modifies task->cred->fsuid/fsgid to specified value.
  *	REVERT_CRED()
  * 		restore original task->cred->fsuid/fsgid.
- * These two macro should be used in pair, and OVERRIDE_CRED() should be 
+ * These two macro should be used in pair, and OVERRIDE_CRED() should be
  * placed at the beginning of a function, right after variable declaration.
  */
 #define OVERRIDE_CRED(sdcardfs_sbi, saved_cred)	\

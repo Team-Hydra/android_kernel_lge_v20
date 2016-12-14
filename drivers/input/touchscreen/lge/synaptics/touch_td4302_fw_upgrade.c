@@ -1442,5 +1442,3 @@ int synaptics_fw_updater(struct device *dev,
 
 	return retval;
 }
-
-
