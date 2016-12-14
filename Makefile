@@ -404,7 +404,7 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
-		   -Werror-implicit-function-declaration \
+		   -Werror-implicit-function-declaration -Wno-unused-variable \
 		   -Wno-format-security \
 		   -std=gnu89
 
@@ -616,6 +616,7 @@ include $(srctree)/arch/$(SRCARCH)/Makefile
 KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,unused-const-variable,)
+KBUILD_CFLAGS	+= $(call cc-disable-warning,unused-variable,)
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
