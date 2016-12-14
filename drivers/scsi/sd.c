@@ -1416,7 +1416,7 @@ static int media_not_present(struct scsi_disk *sdkp,
 	return 0;
 }
 
-#ifndef CONFIG_MACH_LGE
+#ifdef CONFIG_MACH_LGE
 /**
  *	sd_check_events - check media events
  *	@disk: kernel device descriptor
@@ -1443,6 +1443,8 @@ static unsigned int sd_check_events(struct gendisk *disk, unsigned int clearing)
 	 * can deal with it then.  It is only because of unrecoverable errors
 	 * that we would ever take a device offline in the first place.
 	 */
+     
+/*
 	if (!scsi_device_online(sdp)) {
 		set_media_not_present(sdkp);
 		goto out;
@@ -1492,7 +1494,7 @@ out:
 	retval = sdp->changed ? DISK_EVENT_MEDIA_CHANGE : 0;
 	sdp->changed = 0;
 	return retval;
-}
+}*/
 #endif
 
 static int sd_sync_cache(struct scsi_disk *sdkp)
