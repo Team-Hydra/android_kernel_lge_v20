@@ -1001,7 +1001,7 @@ void sw49407_sic_abt_init(struct device *dev)
 	sw49407_read_value(dev, CMD_ABT_LOC_Y_END_READ, &head_loc[3]);
 
 	tHeadBuffer.resolution_x = 1440;
-	tHeadBuffer.resolution_y = 2720;
+	tHeadBuffer.resolution_y = 2560;
 	tHeadBuffer.node_cnt_x = ACTIVE_SCREEN_CNT_X;
 	tHeadBuffer.node_cnt_y = ACTIVE_SCREEN_CNT_Y;
 	tHeadBuffer.additional_node_cnt = 0;
