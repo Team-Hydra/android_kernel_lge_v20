@@ -68,26 +68,6 @@
 	};
 };
 
-&mdss_dsi0 {
-	qcom,dsi-pref-prim-pan = <&dsi_dual_lgd_lg4945_cmd>;
-	lge,extra-gpio-names = "vddio", "vpnl";
-
-	lge,gpio-vddio = <&tlmm 79 0>;
-	lge,gpio-vpnl = <&tlmm 94 0>;
-};
-
-&mdss_dsi1 {
-	qcom,dsi-pref-prim-pan = <&dsi_dual_lgd_lg4945_cmd>;
-	qcom,platform-te-gpio = <&tlmm 10 0>;
-	qcom,platform-reset-gpio = <&tlmm 8 0>;
-
-	/delete-property/vddio-supply;
-	lge,extra-gpio-names = "vddio", "vpnl";
-
-	lge,gpio-vddio = <&tlmm 79 0>;
-	lge,gpio-vpnl = <&tlmm 94 0>;
-};
-
 /* pinctrl for Display function
  * GPIO79 : LCD_VDD_IO_EN
  * GPIO94 : LCD_VCL_EN

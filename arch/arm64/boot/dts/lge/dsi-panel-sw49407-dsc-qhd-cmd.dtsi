@@ -480,7 +480,7 @@
 		>;
 
 		qcom,mdss-pan-physical-width-dimension = <71>;
-		qcom,mdss-pan-physical-height-dimension = <135>;
+		qcom,mdss-pan-physical-height-dimension = <130>;
 
 		qcom,compression-mode = "dsc";
 		qcom,config-select = <&dsi_sw49407_dsc_cmd_config1>;
