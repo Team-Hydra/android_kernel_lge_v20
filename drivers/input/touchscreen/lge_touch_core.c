@@ -3951,6 +3951,16 @@ static int fb_notifier_callback(struct notifier_block *self,
 				__func__, *blank);
 		if (*blank == FB_BLANK_UNBLANK)
 			touch_resume(&ts->client->dev);
+
+                else if (*blank == FB_BLANK_NORMAL)
+			touch_resume(&ts->client->dev);
+
+                else if (*blank == FB_BLANK_VSYNC_SUSPEND)
+			touch_resume(&ts->client->dev);
+
+                else if (*blank == FB_BLANK_HSYNC_SUSPEND)
+			touch_resume(&ts->client->dev);
+
 		else if (*blank == FB_BLANK_POWERDOWN)
 			touch_suspend(&ts->client->dev);
 	}

@@ -242,6 +242,12 @@ static int sw49407_fb_notifier_callback(struct notifier_block *self,
 
 		if (*blank == FB_BLANK_UNBLANK)
 			TOUCH_I("FB_UNBLANK\n");
+                else if (*blank == FB_BLANK_NORMAL)
+			TOUCH_I("FB_NORMAL\n");
+                else if (*blank == FB_BLANK_VSYNC_SUSPEND)
+			TOUCH_I("FB_VSYNC_SUSPEND\n");
+                else if (*blank == FB_BLANK_HSYNC_SUSPEND)
+			TOUCH_I("FB_HSYNC_SUSPEND\n");
 		else if (*blank == FB_BLANK_POWERDOWN)
 			TOUCH_I("FB_BLANK\n");
 	}
