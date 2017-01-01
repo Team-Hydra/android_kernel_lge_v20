@@ -1562,6 +1562,21 @@ static int sw49407_notify(struct device *dev, ulong event, void *data)
 		TOUCH_I("NOTIFY_DEBUG_OPTION!\n");
 		ret = sw49407_debug_option(dev, (u32 *)data);
 		break;
+            case FB_BLANK_UNBLANK:
+            touch_resume(ts->dev);
+                break;
+            case FB_BLANK_NORMAL:
+            touch_resume(ts->dev);
+                break;
+            case FB_BLANK_VSYNC_SUSPEND:
+            touch_resume(ts->dev);
+                break;
+            case FB_BLANK_HSYNC_SUSPEND:
+            touch_resume(ts->dev);;
+                break;
+            case FB_BLANK_POWERDOWN:
+            touch_resume(ts->dev);
+                break;
 	case NOTIFY_ONHAND_STATE:
 		TOUCH_I("NOTIFY_ONHAND_STATE!\n");
 //[BringUp]		if (sw49407_asc_usable(dev)) {	/* ASC */
