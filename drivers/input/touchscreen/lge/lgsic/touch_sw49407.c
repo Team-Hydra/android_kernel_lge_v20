@@ -235,19 +235,16 @@ int is_on = 0;
 int fbstate = 0;
 
 static int sw49407_fb_notifier_callback(struct notifier_block *self,
-		unsigned long event, void *data)
+        unsigned long event, void *data)
 {
-	struct fb_event *ev = (struct fb_event *)data;
-
     int new_status = 0;
 
+    struct fb_event *ev = (struct fb_event *)data;
     if (ev && ev->data && event == FB_EVENT_BLANK) {
         int *blank = (int *)ev->data;
         if (*blank != fbstate )
-            printk("Transitioning %d to %d", fbstate, *blank);
- 
+            printk("Transitioning %d to %d\n", fbstate, *blank);
         fbstate = *blank;
- 
         switch (*blank) {
             default:
                 printk("Unknown blank value %d\n", *blank);
@@ -262,16 +259,16 @@ static int sw49407_fb_notifier_callback(struct notifier_block *self,
                 new_status = 0;
                 break;
         }
- 
-        if (new_status) {
-            touch_resume(ts->dev);
-        } else {
-            touch_suspend(ts->dev);
+        if (new_status != fbstate) {
+            if (new_status) {
+                TOUCH_I("FB_UNBLANK\n");
+            } else {
+                TOUCH_I("FB_BLANK\n");
+            }
+            is_on = new_status;
         }
-        is_on = new_status;
     }
-
-	return 0;
+    return 0;
 }
 
 static int sw49407_reset_ctrl(struct device *dev, int ctrl)
