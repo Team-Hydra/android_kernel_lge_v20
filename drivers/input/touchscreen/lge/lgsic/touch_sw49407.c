@@ -231,20 +231,45 @@ int sw49407_reg_write(struct device *dev, u16 addr, void *data, int size)
 	return 0;
 }
 
+int is_on = 0;
+int fbstate = 0;
 
 static int sw49407_fb_notifier_callback(struct notifier_block *self,
 		unsigned long event, void *data)
 {
 	struct fb_event *ev = (struct fb_event *)data;
 
-	if (ev && ev->data && event == FB_EVENT_BLANK) {
-		int *blank = (int *)ev->data;
+    int new_status = 0;
 
-		if (*blank == FB_BLANK_UNBLANK)
-			TOUCH_I("FB_UNBLANK\n");
-		else if (*blank == FB_BLANK_POWERDOWN)
-			TOUCH_I("FB_BLANK\n");
-	}
+    if (ev && ev->data && event == FB_EVENT_BLANK) {
+        int *blank = (int *)ev->data;
+        if (*blank != fbstate )
+            printk("Transitioning %d to %d", fbstate, *blank);
+ 
+        fbstate = *blank;
+ 
+        switch (*blank) {
+            default:
+                printk("Unknown blank value %d\n", *blank);
+                /* Fall through */
+            case FB_BLANK_UNBLANK:
+            case FB_BLANK_NORMAL:
+            case FB_BLANK_VSYNC_SUSPEND:
+            case FB_BLANK_HSYNC_SUSPEND:
+                new_status = 1;
+                break;
+            case FB_BLANK_POWERDOWN:
+                new_status = 0;
+                break;
+        }
+ 
+        if (new_status) {
+            touch_resume(ts->dev);
+        } else {
+            touch_suspend(ts->dev);
+        }
+        is_on = new_status;
+    }
 
 	return 0;
 }
