@@ -1125,71 +1125,15 @@ static int sw49407_lpwg_mode(struct device *dev)
 		return 0;
 	}
 
-	if (atomic_read(&ts->state.fb) == FB_SUSPEND) {
-		if (ts->role.mfts_lpwg) {
-			sw49407_lpwg_control(dev, LPWG_DOUBLE_TAP);
-			sw49407_tc_driving(dev, d->lcd_mode);
-			return 0;
-		}
-
-		if (ts->lpwg.screen) {
-			TOUCH_I("Skip lpwg_mode\n");
-			sw49407_debug_tci(dev);
-			sw49407_debug_swipe(dev);
-		} else if (ts->lpwg.sensor == PROX_NEAR) {
-			/* deep sleep */
-			TOUCH_I("suspend ts->lpwg.sensor == PROX_NEAR\n");
-			sw49407_deep_sleep(dev);
-		} else if (ts->lpwg.qcover == HALL_NEAR) {
-			/* knock on/code disable */
-			if (atomic_read(&ts->state.sleep) == IC_DEEP_SLEEP)
-				sw49407_clock(dev, 1);
-
-			sw49407_tci_area_set(dev, QUICKCOVER_CLOSE);
-			sw49407_lpwg_control(dev, ts->lpwg.mode);
-			sw49407_tc_driving(dev, d->lcd_mode);
-		} else {
-			/* knock on disable ,knock on, knock code */
-			if (atomic_read(&ts->state.sleep) == IC_DEEP_SLEEP)
-				sw49407_clock(dev, 1);
-
-			sw49407_tci_area_set(dev, QUICKCOVER_OPEN);
-			sw49407_lpwg_control(dev, ts->lpwg.mode);
-			if (ts->lpwg.mode == LPWG_NONE &&
-					d->lcd_mode == LCD_MODE_U0) {
-				/* knock on/code disable + AOD Off case */
-				TOUCH_I("LCD_MODE_U0 - DeepSleep\n");
-				sw49407_deep_sleep(dev);
-			} else {
-				sw49407_tc_driving(dev, d->lcd_mode);
-			}
-		}
-		return 0;
-	}
 
 	/* resume */
 	touch_report_all_event(ts);
-	if (ts->lpwg.screen) {
+
 		/* normal */
 		TOUCH_I("resume ts->lpwg.screen on\n");
 		sw49407_lpwg_control(dev, LPWG_NONE);
-		if (ts->lpwg.qcover == HALL_NEAR)
-			sw49407_tc_driving(dev, LCD_MODE_U3_QUICKCOVER);
-		else
-			sw49407_tc_driving(dev, d->lcd_mode);
-	} else if (ts->lpwg.sensor == PROX_NEAR) {
-		TOUCH_I("resume ts->lpwg.sensor == PROX_NEAR\n");
-		sw49407_deep_sleep(dev);
-	} else {
-		/* partial */
-		TOUCH_I("resume Partial\n");
-		if (ts->lpwg.qcover == HALL_NEAR)
-			sw49407_tci_area_set(dev, QUICKCOVER_CLOSE);
-		else
-			sw49407_tci_area_set(dev, QUICKCOVER_OPEN);
-		sw49407_lpwg_control(dev, ts->lpwg.mode);
-		sw49407_tc_driving(dev, LCD_MODE_U3_PARTIAL);
-	}
+	        sw49407_tc_driving(dev, d->lcd_mode);
+
 
 	return 0;
 }
