@@ -1003,7 +1003,7 @@ void sw49407_sic_abt_init(struct device *dev)
 	tHeadBuffer.resolution_x = 1440;
 	tHeadBuffer.resolution_y = 2720;
 	tHeadBuffer.node_cnt_x = ACTIVE_SCREEN_CNT_X;
-	tHeadBuffer.node_cnt_y = ACTIVE_SCREEN_CNT_Y;
+	tHeadBuffer.node_cnt_y = 1520;
 	tHeadBuffer.additional_node_cnt = 0;
 	tHeadBuffer.rn_min = 1000;
 	tHeadBuffer.rn_max = 1300;
