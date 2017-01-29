@@ -69,7 +69,7 @@
 
 				/*Caps*/
 				max_x = <1439>;
-				max_y = <2559>;
+				max_y = <2719>;
 				max_pressure = <0xff>;
 				max_width_major = <15>;
 				max_width_minor = <15>;

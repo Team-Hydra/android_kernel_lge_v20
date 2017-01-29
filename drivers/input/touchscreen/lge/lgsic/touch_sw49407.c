@@ -660,7 +660,7 @@ static void sw49407_tci_area_set(struct device *dev, int cover_status)
 		sw49407_tci_active_area(dev, 480, 0, 1359, 160);
 		TOUCH_I("LPWG Active Area - QUICKCOVER_CLOSE\n");
 	} else {
-		sw49407_tci_active_area(dev, 80, 0, 1359, 2639);
+		sw49407_tci_active_area(dev, 80, 0, 1359, 2559);
 		TOUCH_I("LPWG Active Area - NORMAL\n");
 	}
 }
@@ -789,7 +789,7 @@ static int sw49407_swipe_active_area(struct device *dev)
 	active_area[0] = (right->area.x1) | (left->area.x1 << 16);
 	active_area[1] = (right->area.y1) | (left->area.y1 << 16);
 	active_area[2] = (right->area.x2) | (left->area.x2 << 16);
-	active_area[3] = (right->area.y2) | (left->area.y2 << 16);
+	active_area[3] = (2559) | (2559 << 16);
 
 	ret = sw49407_reg_write(dev, d->reg_info.r_abt_cmd_spi_addr +
 		SWIPE_ACT_AREA_X1_W, active_area, sizeof(active_area));
@@ -1181,8 +1181,8 @@ static int sw49407_lpwg(struct device *dev, u32 code, void *param)
 	case LPWG_ACTIVE_AREA:
 		ts->tci.area.x1 = value[0];
 		ts->tci.area.x2 = value[1];
-		ts->tci.area.y1 = value[2];
-		ts->tci.area.y2 = value[3];
+		ts->tci.area.y1 = 2559;
+		ts->tci.area.y2 = 2559;
 		TOUCH_I("LPWG_ACTIVE_AREA: x0[%d], x1[%d], x2[%d], x3[%d]\n",
 			value[0], value[1], value[2], value[3]);
 		break;
