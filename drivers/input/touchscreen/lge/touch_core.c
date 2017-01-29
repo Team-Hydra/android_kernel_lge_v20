@@ -393,7 +393,7 @@ static int touch_init_input(struct touch_core_data *ts)
 	input_set_abs_params(input, ABS_MT_POSITION_X, 0,
 			ts->caps.max_x, 0, 0);
 	input_set_abs_params(input, ABS_MT_POSITION_Y, 160,
-			ts->caps.max_y, 160, 160);
+			ts->caps.max_y, 0, 0);
 	input_set_abs_params(input, ABS_MT_PRESSURE, 0,
 			ts->caps.max_pressure, 0, 0);
 	input_set_abs_params(input, ABS_MT_WIDTH_MAJOR, 0,
