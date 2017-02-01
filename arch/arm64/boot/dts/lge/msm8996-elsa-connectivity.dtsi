@@ -33,6 +33,11 @@
 
 	bcm43xx {
 		compatible = "bcm,bcm43xx";
+		bcm,reg-on-gpio = <&pm8994_gpios 19 0x00>; /* BT_REG_ON */
+	};
+
+	bcm43xx {
+		compatible = "bcm,bcm43xx";
 		bcm,reg-on-gpio = <&tlmm 19 0x00>; /* BT_REG_ON */
 		pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&msm_gpio_19>;
