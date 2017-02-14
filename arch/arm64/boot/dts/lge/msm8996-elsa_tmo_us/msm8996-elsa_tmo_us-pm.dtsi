@@ -360,8 +360,8 @@
 			/* LCD Backlight */
 			"lcd", "brightness", "/sys/class/leds/lcd-backlight/brightness",
 			"lcd", "max_brightness", "/sys/class/leds/lcd-backlight/max_brightness",
-			"lcd_ex", "brightness", "/sys/class/leds/lcd-backlight-ex/brightness",
-			"lcd_ex", "max_brightness", "/sys/class/leds/lcd-backlight-ex/max_brightness",
+			"lcd_ex", "brightness", "/sys/class/leds/lcd-backlight/brightness",
+			"lcd_ex", "max_brightness", "/sys/class/leds/lcd-backlight/max_brightness",
 			/* KEY LED */
 			"key_led", "red_brightness", "/sys/class/leds/red/brightness",
 			"key_led", "green_brightness", "/sys/class/leds/green/brightness",
