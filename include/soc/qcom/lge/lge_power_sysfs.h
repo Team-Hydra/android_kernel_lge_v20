@@ -142,8 +142,8 @@ const char *default_pwr_sysfs_path[PWR_SYSFS_PATH_NUM][3] = {
 	{"lcd", "brightness", "/sys/class/leds/lcd-backlight/brightness"},
 	{"lcd", "max_brightness", "/sys/class/leds/lcd-backlight/max_brightness"},
 #ifdef CONFIG_MACH_MSM8996_ELSA
-	{"lcd_ex", "brightness", "/sys/class/leds/lcd-backlight/brightness"},
-	{"lcd_ex", "max_brightness", "/sys/class/leds/lcd-backlight/max_brightness"},
+	{"lcd", "brightness", "/sys/class/leds/lcd-backlight-ex/brightness"},
+	{"lcd", "max_brightness", "/sys/class/leds/lcd-backlight-ex/max_brightness"},
 #endif
 	/* KEY LED */
 	{"key_led", "red_brightness", "/sys/class/leds/red/brightness"},
