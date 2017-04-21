@@ -29,8 +29,10 @@
 #include <sound/jack.h>
 #include "wcd-mbhc-v2.h"
 #include "wcdcal-hwdep.h"
-#if defined(CONFIG_SND_SOC_ES9018)|| defined(CONFIG_SND_SOC_ES9218P)
+#if defined(CONFIG_SND_SOC_ES9218P)
 extern bool enable_es9218p;
+#endif
+#if defined(CONFIG_SND_SOC_ES9018)|| defined(CONFIG_SND_SOC_ES9218P)
 extern int es9218_sabre_headphone_on(void);
 extern int es9218_sabre_headphone_off(void);
 extern int es9218_get_power_state(void);
@@ -200,7 +202,6 @@ static void wcd_mbhc_jack_report(struct wcd_mbhc *mbhc,
 	    !(status & (SND_JACK_OC_HPHL | SND_JACK_OC_HPHR))){
 		switch_set_state(&mbhc->sdev, switch_device);
 #if defined(CONFIG_SND_SOC_ES9018)|| defined(CONFIG_SND_SOC_ES9218P)
-		if(enable_es9218p) {
 			if (status == 0)
 				es9218_sabre_headphone_off();
 			else if (status == SND_JACK_HEADPHONE
@@ -209,7 +210,6 @@ static void wcd_mbhc_jack_report(struct wcd_mbhc *mbhc,
 				es9218_sabre_headphone_on();
 			else
 				pr_debug("%s: not reported to switch_dev\n", __func__);
-		}
 #endif
 	}
 #else
@@ -903,7 +903,7 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 
 		mbhc->hph_status |= jack_type;
 #if defined(CONFIG_SND_SOC_ES9018)|| defined(CONFIG_SND_SOC_ES9218P)
-		if (enable_es9218p)
+		//if (enable_es9218p)
 			es9218_sabre_headphone_on();
 #endif
 		pr_debug("%s: Reporting insertion %d(%x)\n", __func__,
@@ -1996,7 +1996,7 @@ static irqreturn_t wcd_mbhc_mech_plug_detect_irq(int irq, void *data)
 		/* Call handler */
 #if defined(CONFIG_SND_SOC_ES9018)|| defined(CONFIG_SND_SOC_ES9218P)
 // Temp for ES9218 RevA
-		if (enable_es9218p)
+		//if (enable_es9218p)
         		es9218_sabre_headphone_on();
 #endif
 		wcd_mbhc_swch_irq_handler(mbhc);
